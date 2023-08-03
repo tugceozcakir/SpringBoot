@@ -1,7 +1,5 @@
 package com.tugceozcakir.example.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Person {
+public class PersonDTO {
     private UUID uuid;
     private String name;
     private String surname;
@@ -17,8 +15,7 @@ public class Person {
     private String tc;
 
 
-    public Person() {
+    public PersonDTO() {
         this.uuid = UUID.randomUUID();
     }
 }
-

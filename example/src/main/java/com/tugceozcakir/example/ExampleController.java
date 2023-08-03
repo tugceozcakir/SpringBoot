@@ -1,5 +1,7 @@
 package com.tugceozcakir.example;
 
+import com.tugceozcakir.example.database.entity.PersonEntity;
+import com.tugceozcakir.example.database.repository.PersonEntityRepository;
 import com.tugceozcakir.example.model.Person;
 import com.tugceozcakir.example.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,8 +100,8 @@ public class ExampleController {
     }
 
     @PostMapping("/person")
-    public ResponseEntity<Person> postApi(@RequestBody Person person){
-        Person person1 = personService.createPerson(person.getName(), person.getSurname(),
+    public ResponseEntity<PersonEntity> postApi(@RequestBody Person person){
+        PersonEntity person1 = personService.createPerson(person.getName(), person.getSurname(),
                 person.getTc(), person.getBirthYear());
         //throw new Exception("eslşfkgşljkgg");
         return new ResponseEntity<>(person1, HttpStatus.OK);
@@ -160,7 +162,30 @@ public class ExampleController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @Autowired
+    PersonEntityRepository personRepository;
+    @GetMapping("/all-persons")
+    public ResponseEntity<List<PersonEntity>> getAllPersons() {
 
+
+        List<PersonEntity> allPersons = personRepository.findAll();
+        return new ResponseEntity<>(allPersons, HttpStatus.OK);
+    }
+
+    @GetMapping("person-list-by-name-start-with/{key}")
+    public ResponseEntity<List<PersonEntity>> getPersonListByNameStartWith(@PathVariable String key) {
+        return new ResponseEntity<>(personService.getPersonNameStartWith(key), HttpStatus.OK);
+    }
+
+    @GetMapping("person-list-by-name-i-contains/{key}")
+    public ResponseEntity<List<PersonEntity>> getPersonListByNameContains(@PathVariable String key) {
+        return new ResponseEntity<>(personService.getPersonNameIContains(key), HttpStatus.OK);
+    }
+
+    @GetMapping("person-list-by-name-surname-start-with/name/{name}/surname/{surname}")
+    public ResponseEntity<List<PersonEntity>> getPersonListByNameContains(@PathVariable String name, @PathVariable String surname) {
+        return new ResponseEntity<>(personService.getPersonNameStartWithAndSurnameStartWith(name, surname), HttpStatus.OK);
+    }
 
 
 

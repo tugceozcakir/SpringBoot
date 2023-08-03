@@ -1,4 +1,4 @@
-package com.tugceozcakir.example.util.dbutil;
+package com.tugceozcakir.pokemondatabase.util.dbutil;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,6 +7,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.sql.Types;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,29 +16,23 @@ import java.util.UUID;
 @Data
 @EntityListeners({AuditingEntityListener.class})
 public class BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @JdbcTypeCode(java.sql.Types.VARCHAR)
+    @JdbcTypeCode(Types.VARCHAR)
     private UUID uuid;
 
     @CreatedDate
-    private Date creationDate;
+    private java.util.Date creationDate;
 
     @LastModifiedDate
     private Date updatedDate;
-
 
     @PrePersist
     protected void onCreate() {
         setUuid(java.util.UUID.randomUUID());
     }
-
-
 }
-

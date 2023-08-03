@@ -1,4 +1,4 @@
-package com.tugceozcakir.example;
+package com.tugceozcakir.pokemondatabase;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class ExampleApplication {
+public class PokemonDatabaseApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ExampleApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PokemonDatabaseApplication.class, args);
+    }
 
 }
