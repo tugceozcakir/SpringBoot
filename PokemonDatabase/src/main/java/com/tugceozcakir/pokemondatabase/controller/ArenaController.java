@@ -24,6 +24,6 @@ public class ArenaController {
 
     @GetMapping("all-arena")
     public ResponseEntity<List<ArenaEntity>> getArena() {
-        return new ResponseEntity<>(arenaService.findArenas(), HttpStatus.OK);
+        return new ResponseEntity<>(arenaService.findArena(), HttpStatus.OK);
     }
 }

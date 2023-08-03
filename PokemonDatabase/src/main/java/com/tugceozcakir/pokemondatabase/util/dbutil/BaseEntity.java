@@ -26,7 +26,7 @@ public class BaseEntity {
     private UUID uuid;
 
     @CreatedDate
-    private java.util.Date creationDate;
+    private Date creationDate;
 
     @LastModifiedDate
     private Date updatedDate;

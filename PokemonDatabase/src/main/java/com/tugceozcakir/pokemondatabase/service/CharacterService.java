@@ -42,15 +42,6 @@ public class CharacterService {
         return characterRepository.findAllByNameStartingWith(key);
     }
 
-    public List<BaseEntity> getCharacterWithSelectedPokemon(String charName, String pokeName) {
-        List<BaseEntity> baseEntityList = new ArrayList<>();
-        List<CharacterEntity> characterEntityList = returnCharactersByName(charName);
-        List<PokemonEntity> pokemonEntityList = pokemonService.findPokemon(pokeName);
-        baseEntityList.addAll(characterEntityList);
-        baseEntityList.addAll(pokemonEntityList);
-        return baseEntityList;
-    }
-
     public boolean deleteCharacterById(Long characterId) {
         Optional<CharacterEntity> character = characterRepository.findById(characterId);
 

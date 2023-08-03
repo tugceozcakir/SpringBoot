@@ -22,7 +22,7 @@ public class ArenaService {
         return arena;
     }
 
-    public List<ArenaEntity> findArenas() {
+    public List<ArenaEntity> findArena() {
         return arenaEntityRepository.findAllBy();
     }
 }
