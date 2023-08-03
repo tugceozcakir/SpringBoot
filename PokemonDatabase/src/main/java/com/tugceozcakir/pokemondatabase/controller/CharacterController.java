@@ -32,7 +32,7 @@ public class CharacterController {
         return new ResponseEntity<>(characterService.returnCharactersStartingWith(key), HttpStatus.OK);
     }
 
-    @PostMapping("character")
+    @PostMapping("add-character")
     public ResponseEntity<CharacterEntity> createCharacter(@RequestBody CharacterEntity character) {
         CharacterEntity newChar = characterService.createCharacter(character.getName());
         return new ResponseEntity<>(newChar,HttpStatus.OK);

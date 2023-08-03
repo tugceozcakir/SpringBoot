@@ -1,12 +1,8 @@
 package com.tugceozcakir.pokemondatabase.service;
 
 import com.tugceozcakir.pokemondatabase.database.entity.CharacterEntity;
-import com.tugceozcakir.pokemondatabase.database.entity.PokemonEntity;
 import com.tugceozcakir.pokemondatabase.database.repository.CharacterRepository;
-import com.tugceozcakir.pokemondatabase.database.repository.PokemonRepository;
-import com.tugceozcakir.pokemondatabase.util.dbutil.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
