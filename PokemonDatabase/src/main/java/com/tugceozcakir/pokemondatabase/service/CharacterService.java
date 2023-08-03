@@ -41,14 +41,4 @@ public class CharacterService {
     public List<CharacterEntity> returnCharactersStartingWith(String key) {
         return characterRepository.findAllByNameStartingWith(key);
     }
-
-    public boolean deleteCharacterById(Long characterId) {
-        Optional<CharacterEntity> character = characterRepository.findById(characterId);
-
-        if (character.isPresent()) {
-            characterRepository.deleteById(characterId);
-            return true;
-        }
-        return false;
-    }
 }
