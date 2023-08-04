@@ -3,7 +3,9 @@ package com.tugceozcakir.erpsystem.service;
 import com.tugceozcakir.erpsystem.database.entity.CustomerEntity;
 import com.tugceozcakir.erpsystem.database.repository.CustomerRepository;
 import com.tugceozcakir.erpsystem.model.Customer;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +41,6 @@ public class CustomerService {
 
         return customerRepository.save(existingCustomer);
     }
-
-
 
     //Delete customer
     public void deleteCustomer(Long customerId) {

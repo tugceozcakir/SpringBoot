@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+
     public Product createProduct(String name, Double price, Double taxRate, int stockQuantity){
         Product product = new Product();
         product.setName(name);
@@ -25,7 +26,7 @@ public class ProductService {
     //All products
     public List<ProductEntity> getAllProducts() {
         return productRepository.findAll();
-   }
+    }
 
     //Add new product
     public ProductEntity addProduct(ProductEntity product) {
@@ -50,5 +51,8 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-
+    public ProductEntity getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with ID: " + productId));
+    }
 }

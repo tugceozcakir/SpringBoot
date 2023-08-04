@@ -26,7 +26,7 @@ public class OrderController {
     public OrderEntity createOrder(@RequestBody OrderEntity order) {
         Long customerId = order.getCustomer().getId();
         CustomerEntity customer = customerService.getCustomerById(customerId);
-        return orderService.createOrder(customer, order.getOrderItems(), order.getStatus());
+        return orderService.createOrder(customer, order.getOrder_items(), order.getStatus());
     }
 
     @GetMapping("/all-order")

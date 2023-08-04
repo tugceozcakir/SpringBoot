@@ -1,5 +1,6 @@
 package com.tugceozcakir.erpsystem.service;
 
+import com.tugceozcakir.erpsystem.database.entity.OrderEntity;
 import com.tugceozcakir.erpsystem.database.entity.OrderItemEntity;
 import com.tugceozcakir.erpsystem.database.repository.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,19 @@ public class OrderItemService {
     public OrderItemEntity addOrderItem(OrderItemEntity orderItem) {
         return orderItemRepository.save(orderItem);
     }
-/*
+
     public OrderItemEntity updateOrderItem(Long orderItemId, OrderItemEntity updatedOrderItem) {
         OrderItemEntity existingOrderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new NoSuchElementException("OrderItem not found with ID: " + orderItemId));
 
-        existingOrderItem.setName(updatedOrderItem.getName());
-        existingOrderItem.setPrice(updatedOrderItem.getPrice());
+        existingOrderItem.setProduct(updatedOrderItem.getProduct());
         existingOrderItem.setQuantity(updatedOrderItem.getQuantity());
+        existingOrderItem.setUnitPrice(updatedOrderItem.getUnitPrice());
+        existingOrderItem.setTax(updatedOrderItem.getTax());
 
         return orderItemRepository.save(existingOrderItem);
     }
 
- */
 
     public void deleteOrderItem(Long orderItemId) {
         orderItemRepository.deleteById(orderItemId);
@@ -47,6 +48,5 @@ public class OrderItemService {
         return orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new NoSuchElementException("OrderItem not found with ID: " + orderItemId));
     }
-
 }
 

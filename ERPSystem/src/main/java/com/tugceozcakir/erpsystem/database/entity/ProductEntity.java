@@ -14,6 +14,7 @@ import lombok.Data;
 public class ProductEntity extends BaseEntity {
     @Column(name = "product_name")
     private String name;
+
     @Column(name = "product_price")
     private double price;
 

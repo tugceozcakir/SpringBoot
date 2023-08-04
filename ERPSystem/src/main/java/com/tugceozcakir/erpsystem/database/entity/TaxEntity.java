@@ -8,16 +8,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "customer")
-@AttributeOverride(name = "uuid", column = @Column(name = "customer_uuid"))
+@Table(name = "tax")
+@AttributeOverride(name = "uuid", column = @Column(name = "tax_uuid"))
 @Data
-public class CustomerEntity extends BaseEntity {
-    @Column(name = "customer_name")
+public class TaxEntity extends BaseEntity {
     private String name;
-
-    @Column(name = "customer_email")
-    private String email;
-
-    @Column(name = "customer_address")
-    private String address;
+    private double percent;
 }
+

@@ -23,7 +23,7 @@ public class OrderService {
     public OrderEntity createOrder(CustomerEntity customer, List<OrderItemEntity> orderItems, OrderStatus status) {
         OrderEntity order = new OrderEntity();
         order.setCustomer(customer);
-        order.setOrderItems(orderItems);
+        order.setOrder_items(orderItems);
         order.setStatus(status);
         return orderRepository.save(order);
     }

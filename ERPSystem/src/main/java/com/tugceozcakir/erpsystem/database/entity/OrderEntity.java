@@ -9,15 +9,16 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "customer_order")
 @AttributeOverride(name = "uuid", column = @Column(name = "order_uuid"))
 @Data
 public class OrderEntity extends BaseEntity {
+
     @ManyToOne
     private CustomerEntity customer;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderItemEntity> orderItems;
+    private List<OrderItemEntity> order_items;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

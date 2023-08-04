@@ -3,7 +3,9 @@ package com.tugceozcakir.erpsystem.controller;
 import com.tugceozcakir.erpsystem.database.entity.ProductEntity;
 import com.tugceozcakir.erpsystem.model.Product;
 import com.tugceozcakir.erpsystem.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,11 +32,15 @@ public class ProductController {
     }
 
 
+    @Modifying
+    @Transactional
     @PutMapping("/update/{productId}")
     public ProductEntity updateProduct(@PathVariable Long productId, @RequestBody ProductEntity updatedProduct) {
         return productService.updateProduct(productId, updatedProduct);
     }
 
+    @Modifying
+    @Transactional
     @DeleteMapping("/delete/{productId}")
     public void deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);

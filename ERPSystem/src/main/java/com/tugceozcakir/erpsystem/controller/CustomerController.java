@@ -3,7 +3,9 @@ package com.tugceozcakir.erpsystem.controller;
 import com.tugceozcakir.erpsystem.database.entity.CustomerEntity;
 import com.tugceozcakir.erpsystem.model.Customer;
 import com.tugceozcakir.erpsystem.service.CustomerService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +31,15 @@ public class CustomerController {
         return customerService.addCustomer(customer);
     }
 
+    @Modifying
+    @Transactional
     @PutMapping("/update/{customerId}")
     public CustomerEntity updateCustomer(@PathVariable Long customerId, @RequestBody CustomerEntity updatedCustomer) {
         return customerService.updateCustomer(customerId, updatedCustomer);
     }
 
+    @Modifying
+    @Transactional
     @DeleteMapping("/delete/{customerId}")
     public void deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteCustomer(customerId);

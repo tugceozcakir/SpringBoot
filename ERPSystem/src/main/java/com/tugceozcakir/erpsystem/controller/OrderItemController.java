@@ -1,26 +1,35 @@
 package com.tugceozcakir.erpsystem.controller;
 
-import com.tugceozcakir.erpsystem.database.entity.CustomerEntity;
-import com.tugceozcakir.erpsystem.database.entity.OrderEntity;
-import com.tugceozcakir.erpsystem.database.entity.OrderItemEntity;
-import com.tugceozcakir.erpsystem.service.CustomerService;
-import com.tugceozcakir.erpsystem.service.OrderItemService;
-import com.tugceozcakir.erpsystem.service.OrderService;
+import com.tugceozcakir.erpsystem.database.entity.*;
+import com.tugceozcakir.erpsystem.service.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/order-items")
 public class OrderItemController {
 
-    private final OrderItemService orderItemService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     @Autowired
-    public OrderItemController(OrderItemService orderItemService) {
-        this.orderItemService = orderItemService;
+    private ProductService productService;
+
+    @Autowired
+    private TaxService taxService;
+
+    @PostMapping("/add")
+    public OrderItemEntity addOrderItem(@RequestBody OrderItemEntity orderItem) {
+        Long productId = orderItem.getProduct().getId();
+        Long taxId = orderItem.getTax().getId();
+        ProductEntity product = productService.getProductById(productId);
+        TaxEntity tax = taxService.getTaxById(taxId);
+        orderItem.setProduct(product);
+        orderItem.setTax(tax);
+        return orderItemService.addOrderItem(orderItem);
     }
 
     @GetMapping("/all")
@@ -28,18 +37,15 @@ public class OrderItemController {
         return orderItemService.getAllOrderItems();
     }
 
-    @PostMapping("/add")
-    public OrderItemEntity addOrderItem(@RequestBody OrderItemEntity orderItem) {
-        return orderItemService.addOrderItem(orderItem);
-    }
-/*
+    @Modifying
+    @Transactional
     @PutMapping("/update/{orderItemId}")
     public OrderItemEntity updateOrderItem(@PathVariable Long orderItemId, @RequestBody OrderItemEntity updatedOrderItem) {
         return orderItemService.updateOrderItem(orderItemId, updatedOrderItem);
     }
 
- */
-
+    @Modifying
+    @Transactional
     @DeleteMapping("/delete/{orderItemId}")
     public void deleteOrderItem(@PathVariable Long orderItemId) {
         orderItemService.deleteOrderItem(orderItemId);

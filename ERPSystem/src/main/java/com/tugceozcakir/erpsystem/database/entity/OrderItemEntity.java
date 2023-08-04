@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "orderitem")
+@Table(name = "order_item")
 @AttributeOverride(name = "uuid", column = @Column(name = "orderitem_uuid"))
 @Data
 public class OrderItemEntity extends BaseEntity {
@@ -21,6 +21,10 @@ public class OrderItemEntity extends BaseEntity {
     private double taxAmount;
 
     @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private OrderEntity order;
+
+    @ManyToOne
+    private TaxEntity tax;
 }
 

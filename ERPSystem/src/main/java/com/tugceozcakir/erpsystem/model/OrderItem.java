@@ -1,5 +1,10 @@
 package com.tugceozcakir.erpsystem.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class OrderItem {
     private Long id;
     private Product product;
