@@ -1,28 +1,31 @@
 package com.tugceozcakir.erpsystem.database.entity;
 
 import com.tugceozcakir.erpsystem.util.dbutil.BaseEntity;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "product")
-@AttributeOverride(name = "uuid", column = @Column(name = "product_uuid"))
+@Table
 @Data
-public class ProductEntity extends BaseEntity {
-    @Column(name = "product_name")
+@AttributeOverride(name = "uuid", column = @Column(name = "product_uuid"))
+public class ProductEntity extends BaseEntity{
+    @Column
     private String name;
-
-    @Column(name = "product_price")
-    private double price;
-
-    @Column(name = "tax_rate")
-    private double taxRate;
-
-    @Column(name = "stock_quantity")
-    private int stockQuantity;
+    @Column
+    private Boolean isKdvApplied;
+    @Column
+    private BigDecimal price;
+    @Column
+    private BigDecimal nonKdvAppliedPrice = BigDecimal.valueOf(0);
+    @Column
+    private Integer stock;
+    @Column
+    private int orderCount;
+    @ManyToOne
+    @JoinColumn(name = "tax_id", unique = false)
+    private TaxEntity tax;
 
 }
 

@@ -2,7 +2,10 @@ package com.tugceozcakir.erpsystem.database.entity;
 
 import com.tugceozcakir.erpsystem.util.dbutil.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Order;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "invoice")
@@ -10,13 +13,11 @@ import lombok.Data;
 @Data
 public class InvoiceEntity extends BaseEntity {
     @OneToOne
+    @JoinColumn(name = "order_id", unique = false)
     private OrderEntity order;
 
-    @Column(name = "total_amount")
-    private double totalAmount;
-
-    @Column(name = "invoice_number")
-    private String invoiceNumber;
-
+    @Column
+    private BigDecimal totalPrice;
 }
+
 
