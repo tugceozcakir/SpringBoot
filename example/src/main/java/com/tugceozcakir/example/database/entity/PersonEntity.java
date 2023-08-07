@@ -1,14 +1,13 @@
 package com.tugceozcakir.example.database.entity;
 
 import com.tugceozcakir.example.util.dbutil.BaseEntity;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table
 @AttributeOverride(
@@ -20,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PersonEntity extends BaseEntity {
 
-    @Column
+    @Column(unique = true,length = 1250)
     private String name;
 
     @Column
@@ -31,6 +30,10 @@ public class PersonEntity extends BaseEntity {
 
     @Column
     private String tc;
+
+
+    @OneToMany(mappedBy = "person",fetch = FetchType.EAGER)
+    private List<AddressEntity> addressEntityList;
 
 
 }
