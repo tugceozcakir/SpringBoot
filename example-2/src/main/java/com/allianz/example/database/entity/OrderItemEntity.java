@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class OrderItemEntity extends BaseEntity {
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProductEntity product;
 
     @Column

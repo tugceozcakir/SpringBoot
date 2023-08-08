@@ -51,8 +51,6 @@ public class TaxService {
         }
     }
 
-
-
     public TaxEntity updateTax(UUID uuid,String name, String code, BigDecimal rate) {
         if(uuid != null){
             TaxEntity taxEntity = taxEntityRepository.findByUuid(uuid);
@@ -70,10 +68,4 @@ public class TaxService {
     public void deleteTax(UUID uuid) {
         taxEntityRepository.deleteByUuid(uuid);
     }
-
-    public List<TaxDTO> getAllTax() {
-        List<TaxEntity> taxEntities = taxEntityRepository.findAll();
-        return taxMapper.entityListToDTOList(taxEntities);
-    }
-
 }

@@ -8,5 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SettingsEntityRepository extends JpaRepository<SettingsEntity, Long> {
-    Optional<SettingsEntity> findByUuid(UUID uuid);
+    SettingsEntity findByUuid(UUID uuid);
+    SettingsEntity deleteByUuid(UUID uuid);
 }

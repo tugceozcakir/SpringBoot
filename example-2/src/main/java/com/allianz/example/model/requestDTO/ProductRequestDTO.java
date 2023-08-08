@@ -1,5 +1,6 @@
 package com.allianz.example.model.requestDTO;
 
+import com.allianz.example.database.entity.CategoryEntity;
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.model.CategoryDTO;
 import com.allianz.example.model.enums.ColorEnum;
@@ -17,6 +18,6 @@ public class ProductRequestDTO extends BaseDTO {
     private BigDecimal sellPrice;
     private BigDecimal buyPrice;
     private Integer quantity;
-    private Set<CategoryDTO> category;
+    private Set<CategoryEntity> category;
     private TaxEntity tax;
 }
