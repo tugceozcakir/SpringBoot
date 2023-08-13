@@ -33,11 +33,12 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
     @Override
     public PersonEntity dtoToEntity(PersonDTO dto) {
         PersonEntity personEntity = new PersonEntity();
-        personEntity.setId(dto.getId());
         personEntity.setTc(dto.getTc());
         personEntity.setName(dto.getName());
-        personEntity.setBirthYear(dto.getBirthYear());
         personEntity.setSurname(dto.getSurname());
+        personEntity.setId(dto.getId());
+        personEntity.setUuid(dto.getUuid());
+        personEntity.setBirthYear(dto.getBirthYear());
         personEntity.setCreationDate(dto.getCreationDate());
         personEntity.setUpdatedDate(dto.getUpdatedDate());
 
@@ -46,35 +47,35 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
 
     @Override
     public List<PersonDTO> entityListToDTOList(List<PersonEntity> personEntities) {
-        List<PersonDTO> personDTOList = new ArrayList<>();
-
-        for(PersonEntity personEntity : personEntities){
-            personDTOList.add(entityToDTO(personEntity));
-        }
-        return personDTOList;
+        return null;
     }
 
     @Override
     public List<PersonEntity> dtoListTOEntityList(List<PersonDTO> personDTOS) {
-        List<PersonEntity> personEntityList = new ArrayList<>();
-
-        for(PersonDTO personDTO : personDTOS){
-            personEntityList.add(dtoToEntity(personDTO));
-        }
-        return personEntityList;
+        return null;
     }
 
     @Override
     public PersonEntity requestDTOToEntity(PersonRequestDTO dto) {
         PersonEntity personEntity = new PersonEntity();
-        personEntity.setId(dto.getId());
-        personEntity.setName(dto.getName());
         personEntity.setTc(dto.getTc());
+        personEntity.setName(dto.getName());
+        personEntity.setSurname(dto.getSurname());
+        personEntity.setId(dto.getId());
+        personEntity.setUuid(dto.getUuid());
+        personEntity.setBirthYear(dto.getBirthYear());
         personEntity.setCreationDate(dto.getCreationDate());
         personEntity.setUpdatedDate(dto.getUpdatedDate());
-        personEntity.setSurname(dto.getSurname());
-
         return personEntity;
     }
-}
 
+    @Override
+    public List<PersonEntity> requestDtoListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
+        return null;
+    }
+
+    @Override
+    public PersonEntity requestDtoToExistEntity(PersonRequestDTO dto, PersonEntity entity) {
+        return null;
+    }
+}

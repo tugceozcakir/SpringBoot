@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class CustomerDTO extends BaseDTO {
 
-    private PersonEntity person;
+    private PersonDTO person;
 
     private Boolean isCorporate;
 
@@ -23,6 +23,6 @@ public class CustomerDTO extends BaseDTO {
 
     private String taxOffice;
 
-    private List<OrderEntity> orderList;
+    private List<OrderDTO> orderList;
 
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductEntityRepository extends JpaRepository<ProductEntity, Long> {
-    ProductEntity findByUuid(UUID uuid);
-    ProductEntity deleteByUuid(UUID uuid);
+    Optional<ProductEntity> findByUuid(UUID uuid);
+    Optional<ProductEntity> deleteByUuid(UUID uuid);
 
 }

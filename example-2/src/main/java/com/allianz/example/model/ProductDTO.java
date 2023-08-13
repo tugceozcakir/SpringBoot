@@ -17,6 +17,7 @@ public class ProductDTO extends BaseDTO {
     private BigDecimal sellPrice;
     private BigDecimal buyPrice;
     private Integer quantity;
-    private Set<CategoryDTO> category;
-    private TaxEntity tax;
+    private Set<CategoryDTO> categoryList;
+    private TaxDTO tax;
+
 }

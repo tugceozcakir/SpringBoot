@@ -1,7 +1,16 @@
 package com.allianz.example.service;
 
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.repository.ProductEntityRepository;
+import com.allianz.example.mapper.PersonMapper;
+import com.allianz.example.mapper.ProductMapper;
+import com.allianz.example.model.PersonDTO;
+import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.requestDTO.PersonRequestDTO;
+import com.allianz.example.model.requestDTO.ProductRequestDTO;
+import com.allianz.example.util.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,99 +22,56 @@ import java.util.UUID;
 
 //bean
 @Service
-public class PersonService {
-
-
-    @Value("${gizem:25}")
-    int value;
+public class PersonService extends BaseService<PersonDTO, PersonEntity, PersonRequestDTO> {
 
     @Autowired
     PersonEntityRepository personEntityRepository;
+    @Autowired
+    PersonMapper personMapper;
 
-    public PersonEntity createPerson(String name, String surname, String tc, int birthYear) {
-        PersonEntity person = new PersonEntity();
-        person.setTc(tc);
-        person.setName(name);
-        person.setSurname(surname);
-        person.setBirthYear(birthYear);
-
+    @Override
+    public PersonDTO save(PersonRequestDTO personRequestDTO) {
+        PersonEntity person = personMapper.requestDTOToEntity(personRequestDTO);
         personEntityRepository.save(person);
-
-        System.out.println(value);
-
-        return person;
+        return personMapper.entityToDTO(person);
     }
 
-
-    public List<PersonEntity> getPersonNameStartWith(String key) {
-
-
-        return personEntityRepository.findAllByNameStartingWith(key);
+    @Override
+    public List<PersonDTO> getAll() {
+        List<PersonEntity> personEntities = personEntityRepository.findAll();
+        return personMapper.entityListToDTOList(personEntities);
     }
 
-    public List<PersonEntity> getPersonNameIContains(String key) {
-
-
-        return personEntityRepository.findAllByNameContainsIgnoreCase(key);
-    }
-
-
-    public List<PersonEntity> getPersonNameStartWithAndSurnameStartWith(String name, String surname) {
-
-
-        return personEntityRepository.findAllByNameStartingWithOrSurnameStartingWith(name, surname);
-    }
-
-
-    public PersonEntity getPersonByUUID(UUID uuid) {
-
-        Optional<PersonEntity> personEntityOptional = personEntityRepository.findByUuid(uuid);
-
-        if (personEntityOptional.isPresent()) {
-            return personEntityOptional.get();
-        } else {
+    @Override
+    public PersonDTO update(UUID uuid, PersonRequestDTO personRequestDTO) {
+        PersonEntity person = personEntityRepository.findByUuid(uuid).orElse(null);
+        if (person == null) {
             return null;
         }
-
+        return personMapper.entityToDTO(personEntityRepository.save(personMapper.requestDtoToExistEntity(
+                personRequestDTO, person)));
     }
 
-
-    @Transactional
-    public PersonEntity updatePersonByUUID(UUID uuid, PersonEntity newPersonEntity) {
-
-        PersonEntity personEntity = getPersonByUUID(uuid);
-
-        if (personEntity != null) {
-
-            personEntity.setName(newPersonEntity.getName());
-            personEntity.setSurname(newPersonEntity.getSurname());
-            personEntity.setBirthYear(newPersonEntity.getBirthYear());
-            personEntity.setTc(newPersonEntity.getTc());
-
-            personEntityRepository.save(personEntity);
-
-
-
-            return personEntity;
-        } else {
-            return null;
-        }
-
-
-    }
-
-
-    @Transactional
-    public Boolean deletePersonByUUID(UUID uuid) {
-        PersonEntity personEntity = getPersonByUUID(uuid);
-
-        if (personEntity != null) {
-            personEntityRepository.deleteById(personEntity.getId());
-            return true;
-        } else {
+    @Override
+    public Boolean delete(UUID uuid) {
+        PersonEntity personEntity = personEntityRepository.findByUuid(uuid).orElse(null);
+        if (personEntity == null) {
             return false;
         }
+        personEntityRepository.delete(personEntity);
+        return true;
     }
+
+    @Override
+    public PersonDTO getSettingByUuid(UUID uuid) {
+        PersonEntity personEntity = personEntityRepository.findByUuid(uuid).orElse(null);
+        if (personEntity == null) {
+            return null;
+        }
+        return personMapper.entityToDTO(personEntity);
+    }
+
+
 
 
 }

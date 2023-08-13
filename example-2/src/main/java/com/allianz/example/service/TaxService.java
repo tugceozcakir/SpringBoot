@@ -6,6 +6,8 @@ import com.allianz.example.database.repository.TaxEntityRepository;
 import com.allianz.example.mapper.TaxMapper;
 import com.allianz.example.model.AddressDTO;
 import com.allianz.example.model.TaxDTO;
+import com.allianz.example.model.requestDTO.TaxRequestDTO;
+import com.allianz.example.util.BaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,56 +18,51 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class TaxService {
-
+public class TaxService extends BaseService<TaxDTO, TaxEntity, TaxRequestDTO> {
     @Autowired
-    TaxEntityRepository taxEntityRepository;
-
+    private TaxEntityRepository taxRepository;
     @Autowired
-    TaxMapper taxMapper;
+    private TaxMapper taxMapper;
 
-    public TaxEntity createTax(String name, String code, BigDecimal rate){
-        TaxEntity tax = new TaxEntity();
-
-        tax.setName(name);
-        tax.setCode(code);
-        tax.setRate(rate);
-
-        taxEntityRepository.save(tax);
-
-        return tax;
+    @Override
+    public TaxDTO save(TaxRequestDTO taxRequestDTO) {
+        TaxEntity tax = taxMapper.requestDTOToEntity(taxRequestDTO);
+        taxRepository.save(tax);
+        return taxMapper.entityToDTO(tax);
     }
 
-    public List<TaxDTO> getAllTaxes() {
-        List<TaxEntity> taxEntities = taxEntityRepository.findAll();
+    @Override
+    public List<TaxDTO> getAll() {
+        List<TaxEntity> taxEntities = taxRepository.findAll();
         return taxMapper.entityListToDTOList(taxEntities);
     }
 
-    public TaxDTO getByUUID(UUID uuid) {
-        TaxEntity taxEntity = taxEntityRepository.findByUuid(uuid);
-
-        if (taxEntity != null) {
-            return taxMapper.entityToDTO(taxEntity);
-        } else {
-            throw new EntityNotFoundException("Tax not found with UUID: " + uuid);
+    @Override
+    public TaxDTO update(UUID uuid, TaxRequestDTO taxRequestDTO) {
+        TaxEntity taxEntity = taxRepository.findByUuid(uuid).orElse(null);
+        if (taxEntity == null) {
+            return null;
         }
+        return taxMapper.entityToDTO(taxRepository.save(taxMapper.requestDtoToExistEntity(taxRequestDTO, taxEntity)));
     }
 
-    public TaxEntity updateTax(UUID uuid,String name, String code, BigDecimal rate) {
-        if(uuid != null){
-            TaxEntity taxEntity = taxEntityRepository.findByUuid(uuid);
-
-            taxEntity.setName(name);
-            taxEntity.setCode(code);
-            taxEntity.setRate(rate);
-
-            return taxEntityRepository.save(taxEntity);
-        } else {
-            throw new EntityNotFoundException("Address not found with UUID: " + uuid);
+    @Override
+    public Boolean delete(UUID uuid) {
+        TaxEntity taxEntity = taxRepository.findByUuid(uuid).orElse(null);
+        if (taxEntity == null) {
+            return false;
         }
+        taxRepository.delete(taxEntity);
+        return true;
     }
 
-    public void deleteTax(UUID uuid) {
-        taxEntityRepository.deleteByUuid(uuid);
+    @Override
+    public TaxDTO getSettingByUuid(UUID uuid) {
+        TaxEntity taxEntity = taxRepository.findByUuid(uuid).orElse(null);
+        if (taxEntity == null) {
+            return null;
+        }
+        return taxMapper.entityToDTO(taxEntity);
     }
+
 }

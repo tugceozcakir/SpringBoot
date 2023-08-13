@@ -21,21 +21,15 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         addressDTO.setTitle(entity.getTitle());
         addressDTO.setUpdatedDate(entity.getUpdatedDate());
 
+
         return addressDTO;
     }
 
     @Override
     public AddressEntity dtoToEntity(AddressDTO dto) {
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddress(dto.getAddress());
-        addressEntity.setId(dto.getId());
-        addressEntity.setTitle(dto.getTitle());
-        addressEntity.setUuid(dto.getUuid());
-        addressEntity.setCreationDate(dto.getCreationDate());
-        addressEntity.setUpdatedDate(dto.getUpdatedDate());
-
-        return addressEntity;
+        return null;
     }
+
     @Override
     public List<AddressDTO> entityListToDTOList(List<AddressEntity> addressEntities) {
         List<AddressDTO> addressDTOList = new ArrayList<>();
@@ -43,19 +37,15 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         for (AddressEntity addressEntity:addressEntities) {
             addressDTOList.add(entityToDTO(addressEntity));
         }
-        
+
         return addressDTOList;
     }
 
     @Override
     public List<AddressEntity> dtoListTOEntityList(List<AddressDTO> addressDTOS) {
-        List<AddressEntity> addressEntityList = new ArrayList<>();
-
-        for (AddressDTO addressDTO : addressDTOS) {
-            addressEntityList.add(dtoToEntity(addressDTO));
-        }
-        return addressEntityList;
+        return null;
     }
+
     @Override
     public AddressEntity requestDTOToEntity(AddressRequestDTO dto) {
         AddressEntity entity = new AddressEntity();
@@ -68,7 +58,15 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         return entity;
     }
 
+    @Override
+    public List<AddressEntity> requestDtoListTOEntityList(List<AddressRequestDTO> addressRequestDTOS) {
+        return null;
+    }
 
+    @Override
+    public AddressEntity requestDtoToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
+        return null;
+    }
 
 
 }

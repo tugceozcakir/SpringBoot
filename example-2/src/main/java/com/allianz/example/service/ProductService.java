@@ -1,12 +1,18 @@
 package com.allianz.example.service;
 
 import com.allianz.example.database.entity.ProductEntity;
+import com.allianz.example.database.entity.SellerEntity;
 import com.allianz.example.database.entity.TaxEntity;
 import com.allianz.example.database.repository.ProductEntityRepository;
+import com.allianz.example.database.repository.SellerEntityRepository;
 import com.allianz.example.database.repository.TaxEntityRepository;
 import com.allianz.example.mapper.ProductMapper;
+import com.allianz.example.mapper.SellerMapper;
 import com.allianz.example.model.ProductDTO;
+import com.allianz.example.model.SellerDTO;
 import com.allianz.example.model.requestDTO.ProductRequestDTO;
+import com.allianz.example.model.requestDTO.SellerRequestDTO;
+import com.allianz.example.util.BaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,75 +21,53 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductService {
-
+public class ProductService extends BaseService<ProductDTO, ProductEntity, ProductRequestDTO> {
     @Autowired
     ProductEntityRepository productEntityRepository;
-
     @Autowired
     ProductMapper productMapper;
 
-    @Autowired
-    TaxEntityRepository taxEntityRepository;
-
-    public ProductEntity createProduct(ProductRequestDTO request) {
-        ProductEntity productEntity = new ProductEntity();
-        if (request.getTax() != null) {
-            TaxEntity taxEntity = taxEntityRepository.findById(request.getTax().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + request.getTax().getId()));
-            productEntity.setTax(taxEntity);
-        }
-
-        productEntity.setBuyPrice(request.getBuyPrice());
-        productEntity.setCode(request.getCode());
-        productEntity.setName(request.getName());
-        productEntity.setQuantity(request.getQuantity());
-        productEntity.setBuyPrice(request.getBuyPrice());
-        productEntity.setColor(request.getColor());
-        productEntity.setCategoryList(request.getCategory());
-        productEntity.setSellPrice(request.getSellPrice());
-
-        productEntityRepository.save(productEntity);
-
-        return productEntity;
+    @Override
+    public ProductDTO save(ProductRequestDTO productRequestDTO) {
+        ProductEntity product = productMapper.requestDTOToEntity(productRequestDTO);
+        productEntityRepository.save(product);
+        return productMapper.entityToDTO(product);
     }
 
-    public List<ProductDTO> getAllProducts() {
+    @Override
+    public List<ProductDTO> getAll() {
         List<ProductEntity> productEntities = productEntityRepository.findAll();
         return productMapper.entityListToDTOList(productEntities);
     }
 
-    public ProductDTO getByUUID(UUID uuid) {
-        ProductEntity productEntity = productEntityRepository.findByUuid(uuid);
-
-        if (productEntity != null) {
-            return productMapper.entityToDTO(productEntity);
-        } else {
-            throw new EntityNotFoundException("Product not found with UUID: " + uuid);
+    @Override
+    public ProductDTO update(UUID uuid, ProductRequestDTO productRequestDTO) {
+        ProductEntity product = productEntityRepository.findByUuid(uuid).orElse(null);
+        if (product == null) {
+            return null;
         }
+        return productMapper.entityToDTO(productEntityRepository.save(productMapper.requestDtoToExistEntity(
+                productRequestDTO, product)));
     }
 
-    public ProductEntity updateProduct(UUID uuid, ProductRequestDTO request) {
-        if (uuid != null) {
-            ProductEntity productEntity = productEntityRepository.findByUuid(uuid);
-
-            productEntity.setBuyPrice(request.getBuyPrice());
-            productEntity.setCode(request.getCode());
-            productEntity.setName(request.getName());
-            productEntity.setQuantity(request.getQuantity());
-            productEntity.setBuyPrice(request.getBuyPrice());
-            productEntity.setColor(request.getColor());
-            productEntity.setCategoryList(request.getCategory());
-            productEntity.setSellPrice(request.getSellPrice());
-            productEntity.setTax(request.getTax());
-
-            return productEntityRepository.save(productEntity);
-        } else {
-            throw new EntityNotFoundException("Product not found with UUID: " + uuid);
+    @Override
+    public Boolean delete(UUID uuid) {
+        ProductEntity productEntity = productEntityRepository.findByUuid(uuid).orElse(null);
+        if (productEntity == null) {
+            return false;
         }
+        productEntityRepository.delete(productEntity);
+        return true;
     }
 
-    public void deleteProduct(UUID uuid) {
-        productEntityRepository.deleteByUuid(uuid);
+    @Override
+    public ProductDTO getSettingByUuid(UUID uuid) {
+        ProductEntity productEntity = productEntityRepository.findByUuid(uuid).orElse(null);
+        if (productEntity == null) {
+            return null;
+        }
+        return productMapper.entityToDTO(productEntity);
     }
+
+
 }

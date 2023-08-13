@@ -10,6 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface OrderEntityRepository extends JpaRepository<OrderEntity, Long> {
-    OrderEntity findByUuid(UUID uuid);
-    OrderEntity deleteByUuid(UUID uuid);
+    Optional<OrderEntity> findByUuid(UUID uuid);
+    Optional<OrderEntity> deleteByUuid(UUID uuid);
 }

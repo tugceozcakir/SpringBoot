@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BillEntityRepository extends JpaRepository<BillEntity, Long> {
-    BillEntity findByUuid(UUID uuid);
-    BillEntity deleteByUuid(UUID uuid);
+    Optional<BillEntity> findByUuid(UUID uuid);
+    Optional<BillEntity> deleteByUuid(UUID uuid);
 }

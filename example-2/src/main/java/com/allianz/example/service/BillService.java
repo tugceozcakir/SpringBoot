@@ -1,10 +1,16 @@
 package com.allianz.example.service;
 
 import com.allianz.example.database.entity.BillEntity;
+import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.repository.BillEntityRepository;
+import com.allianz.example.database.repository.ProductEntityRepository;
 import com.allianz.example.mapper.BillMapper;
+import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.model.BillDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.BillRequestDTO;
+import com.allianz.example.model.requestDTO.ProductRequestDTO;
+import com.allianz.example.util.BaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class BillService {
+public class BillService extends BaseService<BillDTO, BillEntity, BillRequestDTO> {
 
     @Autowired
     BillEntityRepository billEntityRepository;
@@ -21,56 +27,47 @@ public class BillService {
     @Autowired
     BillMapper billMapper;
 
-    public BillEntity createBill(BillRequestDTO request) {
-        BillEntity billEntity = new BillEntity();
-
-        billEntity.setBillNo(request.getBillNo());
-        billEntity.setBillDate(request.getBillDate());
-        billEntity.setTaxRate(request.getTaxRate());
-        billEntity.setTaxAmount(request.getTaxAmount());
-        billEntity.setTotalSellNetPrice(request.getTotalSellNetPrice());
-        billEntity.setTotalSellPrice(request.getTotalSellPrice());
-        billEntity.setOrder(request.getOrder());
-
-        billEntityRepository.save(billEntity);
-
-        return billEntity;
+    @Override
+    public BillDTO save(BillRequestDTO billRequestDTO) {
+        BillEntity bill = billMapper.requestDTOToEntity(billRequestDTO);
+        billEntityRepository.save(bill);
+        return billMapper.entityToDTO(bill);
     }
 
-    public List<BillDTO> getAllBills() {
+    @Override
+    public List<BillDTO> getAll() {
         List<BillEntity> billEntities = billEntityRepository.findAll();
         return billMapper.entityListToDTOList(billEntities);
     }
 
-    public BillDTO getByUUID(UUID uuid) {
-        BillEntity billEntity = billEntityRepository.findByUuid(uuid);
-
-        if (billEntity != null) {
-            return billMapper.entityToDTO(billEntity);
-        } else {
-            throw new EntityNotFoundException("Bill not found with UUID: " + uuid);
+    @Override
+    public BillDTO update(UUID uuid, BillRequestDTO billRequestDTO) {
+        BillEntity bill = billEntityRepository.findByUuid(uuid).orElse(null);
+        if (bill == null) {
+            return null;
         }
+        return billMapper.entityToDTO(billEntityRepository.save(billMapper.requestDtoToExistEntity(
+                billRequestDTO, bill)));
     }
 
-    public BillEntity updateBill(UUID uuid, BillRequestDTO request) {
-        if (uuid != null) {
-            BillEntity billEntity = billEntityRepository.findByUuid(uuid);
-
-            billEntity.setBillNo(request.getBillNo());
-            billEntity.setBillDate(request.getBillDate());
-            billEntity.setTaxRate(request.getTaxRate());
-            billEntity.setTaxAmount(request.getTaxAmount());
-            billEntity.setTotalSellNetPrice(request.getTotalSellNetPrice());
-            billEntity.setTotalSellPrice(request.getTotalSellPrice());
-            billEntity.setOrder(request.getOrder());
-
-            return billEntityRepository.save(billEntity);
-        } else {
-            throw new EntityNotFoundException("Bill not found with UUID: " + uuid);
+    @Override
+    public Boolean delete(UUID uuid) {
+        BillEntity billEntity = billEntityRepository.findByUuid(uuid).orElse(null);
+        if (billEntity == null) {
+            return false;
         }
+        billEntityRepository.delete(billEntity);
+        return true;
     }
 
-    public void deleteBill(UUID uuid) {
-        billEntityRepository.deleteByUuid(uuid);
+    @Override
+    public BillDTO getSettingByUuid(UUID uuid) {
+        BillEntity billEntity = billEntityRepository.findByUuid(uuid).orElse(null);
+        if (billEntity == null) {
+            return null;
+        }
+        return billMapper.entityToDTO(billEntity);
     }
+
+
 }

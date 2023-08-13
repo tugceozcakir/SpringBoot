@@ -10,5 +10,5 @@ import java.util.Set;
 @Data
 public class CategoryDTO extends BaseDTO {
     private String name;
-    private Set<ProductEntity> productList;
+    private Set<ProductDTO> productList;
 }

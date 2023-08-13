@@ -2,6 +2,7 @@ package com.allianz.example.model.requestDTO;
 
 import com.allianz.example.database.entity.OrderEntity;
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.model.OrderDTO;
 import com.allianz.example.util.BaseDTO;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Data
 public class CustomerRequestDTO extends BaseDTO {
 
-    private PersonEntity person;
+    private PersonRequestDTO person;
 
     private Boolean isCorporate;
 
@@ -19,6 +20,6 @@ public class CustomerRequestDTO extends BaseDTO {
 
     private String taxOffice;
 
-    private List<OrderEntity> orderList;
+    private List<OrderRequestDTO> orderList;
 
 }

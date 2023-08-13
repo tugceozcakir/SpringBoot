@@ -7,6 +7,7 @@ import com.allianz.example.model.requestDTO.OrderItemRequestDTO;
 import com.allianz.example.util.BaseDTO;
 import com.allianz.example.util.IBaseMapper;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,41 +16,50 @@ import java.util.List;
 @Component
 public class OrderItemMapper implements IBaseMapper<OrderItemDTO, OrderItemEntity, OrderItemRequestDTO> {
     @Override
+    public OrderItemEntity requestDtoToExistEntity(OrderItemRequestDTO dto, OrderItemEntity entity) {
+        return null;
+    }
+
+    @Autowired
+    ProductMapper productMapper;
+
+    @Override
     public OrderItemDTO entityToDTO(OrderItemEntity entity) {
-        OrderItemDTO orderItemDTO = new OrderItemDTO();
 
-        orderItemDTO.setId(entity.getId());
-        orderItemDTO.setUuid(entity.getUuid());
-        orderItemDTO.setCreationDate(entity.getCreationDate());
-        orderItemDTO.setQuantity(entity.getQuantity());
-        orderItemDTO.setUpdatedDate(entity.getUpdatedDate());
-        orderItemDTO.setProduct(entity.getProduct());
-        orderItemDTO.setSellPrice(entity.getSellPrice());
+        OrderItemDTO dto = new OrderItemDTO();
+        dto.setId(entity.getId());
+        dto.setUuid(entity.getUuid());
+        dto.setCreationDate(entity.getCreationDate());
+        dto.setUpdatedDate(entity.getUpdatedDate());
+        dto.setProduct(productMapper.entityToDTO(entity.getProduct()));
+        dto.setQuantity(entity.getQuantity());
+        dto.setSellPrice(entity.getSellPrice());
 
-        return orderItemDTO;
+
+        return dto;
     }
 
     @Override
     public OrderItemEntity dtoToEntity(OrderItemDTO dto) {
-        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        OrderItemEntity entity = new OrderItemEntity();
+        entity.setId(dto.getId());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setProduct(productMapper.dtoToEntity(dto.getProduct()));
+        entity.setQuantity(dto.getQuantity());
+        entity.setSellPrice(dto.getSellPrice());
 
-        orderItemEntity.setId(dto.getId());
-        orderItemEntity.setUuid(dto.getUuid());
-        orderItemEntity.setCreationDate(dto.getCreationDate());
-        orderItemEntity.setQuantity(dto.getQuantity());
-        orderItemEntity.setUpdatedDate(dto.getUpdatedDate());
-        orderItemEntity.setProduct(dto.getProduct());
-        orderItemEntity.setSellPrice(dto.getSellPrice());
-
-        return orderItemEntity;
+        return entity;
     }
 
     @Override
     public List<OrderItemDTO> entityListToDTOList(List<OrderItemEntity> orderItemEntities) {
         List<OrderItemDTO> dtoList = new ArrayList<>();
+        for (OrderItemEntity entity : orderItemEntities) {
+            OrderItemDTO dto = entityToDTO(entity);
+            dtoList.add(dto);
 
-        for(OrderItemEntity orderItemEntity: orderItemEntities){
-            dtoList.add(entityToDTO(orderItemEntity));
         }
         return dtoList;
     }
@@ -57,25 +67,37 @@ public class OrderItemMapper implements IBaseMapper<OrderItemDTO, OrderItemEntit
     @Override
     public List<OrderItemEntity> dtoListTOEntityList(List<OrderItemDTO> orderItemDTOS) {
         List<OrderItemEntity> entityList = new ArrayList<>();
+        for (OrderItemDTO dto : orderItemDTOS) {
+            OrderItemEntity entity = dtoToEntity(dto);
+            entityList.add(entity);
 
-        for(OrderItemDTO orderItemDTO: orderItemDTOS){
-            entityList.add(dtoToEntity(orderItemDTO));
         }
         return entityList;
     }
 
     @Override
     public OrderItemEntity requestDTOToEntity(OrderItemRequestDTO dto) {
-        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        OrderItemEntity entity = new OrderItemEntity();
+        entity.setId(dto.getId());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setProduct(productMapper.requestDTOToEntity(dto.getProduct()));
+        entity.setQuantity(dto.getQuantity());
+        entity.setSellPrice(dto.getSellPrice());
+        return entity;
+    }
 
-        orderItemEntity.setId(dto.getId());
-        orderItemEntity.setUuid(dto.getUuid());
-        orderItemEntity.setCreationDate(dto.getCreationDate());
-        orderItemEntity.setQuantity(dto.getQuantity());
-        orderItemEntity.setUpdatedDate(dto.getUpdatedDate());
-        orderItemEntity.setProduct(dto.getProduct());
-        orderItemEntity.setSellPrice(dto.getSellPrice());
+    @Override
+    public List<OrderItemEntity> requestDtoListTOEntityList(List<OrderItemRequestDTO> orderItemRequestDTOS) {
 
-        return orderItemEntity;
+        List<OrderItemEntity> entityList = new ArrayList<>();
+
+        for (OrderItemRequestDTO dto : orderItemRequestDTOS) {
+            OrderItemEntity entity = requestDTOToEntity(dto);
+            entityList.add(entity);
+
+        }
+        return entityList;
     }
 }

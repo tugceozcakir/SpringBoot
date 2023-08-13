@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SellerEntityRepository extends JpaRepository<SellerEntity, Long> {
-    SellerEntity findByUuid(UUID uuid);
-    SellerEntity deleteByUuid(UUID uuid);
+    Optional<SellerEntity> findByUuid(UUID uuid);
+    Optional<SellerEntity> deleteByUuid(UUID uuid);
 }

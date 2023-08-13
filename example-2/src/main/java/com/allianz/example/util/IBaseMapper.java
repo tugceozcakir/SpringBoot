@@ -17,4 +17,8 @@ public interface IBaseMapper<DTO extends BaseDTO, Entity extends BaseEntity, Req
     Entity requestDTOToEntity(RequestDTO dto);
 
 
+    List<Entity> requestDtoListTOEntityList(List<RequestDTO> dtoList);
+    Entity requestDtoToExistEntity(RequestDTO dto, Entity entity);
+
 }
+

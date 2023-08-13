@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface TaxEntityRepository extends JpaRepository<TaxEntity, Long> {
-    TaxEntity findByUuid(UUID uuid);
-    TaxEntity deleteByUuid(UUID uuid);
+    Optional<TaxEntity> findByUuid(UUID uuid);
+    Optional<TaxEntity> deleteByUuid(UUID uuid);
 
 }

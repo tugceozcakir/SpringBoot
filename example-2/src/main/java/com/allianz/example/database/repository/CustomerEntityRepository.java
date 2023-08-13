@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerEntityRepository extends JpaRepository<CustomerEntity, Long> {
-    CustomerEntity findByUuid(UUID uuid);
-    CustomerEntity deleteByUuid(UUID uuid);
+    Optional<CustomerEntity> findByUuid(UUID uuid);
+    Optional<CustomerEntity> deleteByUuid(UUID uuid);
 }

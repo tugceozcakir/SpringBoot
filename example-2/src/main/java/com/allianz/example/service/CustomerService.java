@@ -2,11 +2,17 @@ package com.allianz.example.service;
 
 import com.allianz.example.database.entity.CustomerEntity;
 import com.allianz.example.database.entity.PersonEntity;
+import com.allianz.example.database.entity.ProductEntity;
 import com.allianz.example.database.repository.CustomerEntityRepository;
 import com.allianz.example.database.repository.PersonEntityRepository;
+import com.allianz.example.database.repository.ProductEntityRepository;
 import com.allianz.example.mapper.CustomerMapper;
+import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.model.CustomerDTO;
+import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.requestDTO.CustomerRequestDTO;
+import com.allianz.example.model.requestDTO.ProductRequestDTO;
+import com.allianz.example.util.BaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CustomerService {
+public class CustomerService extends BaseService<CustomerDTO, CustomerEntity, CustomerRequestDTO> {
 
     @Autowired
     CustomerEntityRepository customerEntityRepository;
@@ -23,61 +29,48 @@ public class CustomerService {
     @Autowired
     CustomerMapper customerMapper;
 
-    @Autowired
-    PersonEntityRepository personEntityRepository;
-
-    public CustomerEntity createCustomer(CustomerRequestDTO request) {
-        CustomerEntity customerEntity = new CustomerEntity();
-
-        PersonEntity personEntity = personEntityRepository.findById(request.getPerson().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Person not found with ID: " + request.getPerson().getId()));
-
-        customerEntity.setPerson(personEntity);
-        customerEntity.setIsCorporate(request.getIsCorporate());
-        customerEntity.setCompanyName(request.getCompanyName());
-        customerEntity.setTaxNumber(request.getTaxNumber());
-        customerEntity.setTaxOffice(request.getTaxOffice());
-        customerEntity.setOrderList(request.getOrderList());
-
-        customerEntityRepository.save(customerEntity);
-
-        return customerEntity;
+    @Override
+    public CustomerDTO save(CustomerRequestDTO customerRequestDTO) {
+        CustomerEntity customer = customerMapper.requestDTOToEntity(customerRequestDTO);
+        customerEntityRepository.save(customer);
+        return customerMapper.entityToDTO(customer);
     }
 
-    public List<CustomerDTO> getAllCustomers() {
+    @Override
+    public List<CustomerDTO> getAll() {
         List<CustomerEntity> customerEntities = customerEntityRepository.findAll();
         return customerMapper.entityListToDTOList(customerEntities);
     }
 
-    public CustomerDTO getByUUID(UUID uuid) {
-        CustomerEntity customerEntity = customerEntityRepository.findByUuid(uuid);
-
-        if (customerEntity != null) {
-            return customerMapper.entityToDTO(customerEntity);
-        } else {
-            throw new EntityNotFoundException("Customer not found with UUID: " + uuid);
+    @Override
+    public CustomerDTO update(UUID uuid, CustomerRequestDTO customerRequestDTO) {
+        CustomerEntity customer = customerEntityRepository.findByUuid(uuid).orElse(null);
+        if (customer == null) {
+            return null;
         }
+        return customerMapper.entityToDTO(customerEntityRepository.save(customerMapper.requestDtoToExistEntity(
+                customerRequestDTO, customer)));
     }
 
-    public CustomerEntity updateCustomer(UUID uuid, CustomerRequestDTO request) {
-        if (uuid != null) {
-            CustomerEntity customerEntity = customerEntityRepository.findByUuid(uuid);
-
-            customerEntity.setPerson(request.getPerson());
-            customerEntity.setIsCorporate(request.getIsCorporate());
-            customerEntity.setCompanyName(request.getCompanyName());
-            customerEntity.setTaxNumber(request.getTaxNumber());
-            customerEntity.setTaxOffice(request.getTaxOffice());
-            customerEntity.setOrderList(request.getOrderList());
-
-            return customerEntityRepository.save(customerEntity);
-        } else {
-            throw new EntityNotFoundException("Customer not found with UUID: " + uuid);
+    @Override
+    public Boolean delete(UUID uuid) {
+        CustomerEntity customerEntity = customerEntityRepository.findByUuid(uuid).orElse(null);
+        if (customerEntity == null) {
+            return false;
         }
+        customerEntityRepository.delete(customerEntity);
+        return true;
     }
 
-    public void deleteCustomer(UUID uuid) {
-        customerEntityRepository.deleteByUuid(uuid);
+    @Override
+    public CustomerDTO getSettingByUuid(UUID uuid) {
+        CustomerEntity customerEntity = customerEntityRepository.findByUuid(uuid).orElse(null);
+        if (customerEntity == null) {
+            return null;
+        }
+        return customerMapper.entityToDTO(customerEntity);
     }
+
+
 }
 

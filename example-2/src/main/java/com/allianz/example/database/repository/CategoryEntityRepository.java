@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CategoryEntityRepository extends JpaRepository<CategoryEntity, Long> {
-    CategoryEntity findByUuid(UUID uuid);
+    Optional<CategoryEntity> findByUuid(UUID uuid);
     CategoryEntity deleteByUuid(UUID uuid);
 }
