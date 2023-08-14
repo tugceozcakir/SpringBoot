@@ -14,94 +14,95 @@ import java.util.List;
 @Component
 public class CustomerMapper implements IBaseMapper<CustomerDTO, CustomerEntity, CustomerRequestDTO> {
 
-    @Autowired
-    PersonMapper personMapper;
+    private final PersonMapper personMapper;
+    private final OrderMapper orderMapper;
 
     @Autowired
     @Lazy
-    OrderMapper orderMapper;
+    public CustomerMapper(PersonMapper personMapper, OrderMapper orderMapper) {
+        this.personMapper = personMapper;
+        this.orderMapper = orderMapper;
+    }
+
 
     @Override
     public CustomerDTO entityToDTO(CustomerEntity entity) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(entity.getId());
+        customerDTO.setCompanyName(entity.getCompanyName());
+        customerDTO.setCreationDate(entity.getCreationDate());
+        customerDTO.setUuid(entity.getUuid());
+        customerDTO.setIsCorporate(entity.getIsCorporate());
+        customerDTO.setUpdatedDate(entity.getUpdatedDate());
+        customerDTO.setTaxNumber(entity.getTaxNumber());
+        customerDTO.setTaxOffice(entity.getTaxOffice());
+        customerDTO.setPerson(personMapper.entityToDTO(entity.getPerson()));
+        customerDTO.setOrderList(orderMapper.entityListToDTOList(entity.getOrderList()));
 
-        CustomerDTO dto = new CustomerDTO();
-        dto.setId(entity.getId());
-        dto.setUuid(entity.getUuid());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setUpdatedDate(entity.getUpdatedDate());
-        dto.setCompanyName(entity.getCompanyName());
-        dto.setTaxNumber(entity.getTaxNumber());
-        dto.setTaxOffice(entity.getTaxOffice());
-        dto.setIsCorporate(entity.getIsCorporate());
-        dto.setPerson(personMapper.entityToDTO(entity.getPerson()));
-        dto.setOrderList(orderMapper.entityListToDTOList(entity.getOrderList()));
+        return customerDTO;
+    }
 
-        return dto;
+    @Override
+    public CustomerEntity requestDTOToExistEntity(CustomerRequestDTO dto, CustomerEntity entity) {
+        return null;
     }
 
     @Override
     public CustomerEntity dtoToEntity(CustomerDTO dto) {
-        CustomerEntity entity = new CustomerEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setCompanyName(dto.getCompanyName());
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setTaxOffice(dto.getTaxOffice());
-        entity.setIsCorporate(dto.getIsCorporate());
-        entity.setPerson(personMapper.dtoToEntity(dto.getPerson()));
-        entity.setOrderList(orderMapper.dtoListTOEntityList(dto.getOrderList()));
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setUpdatedDate(dto.getUpdatedDate());
+        customerEntity.setId(dto.getId());
+        customerEntity.setCompanyName(dto.getCompanyName());
+        customerEntity.setCreationDate(dto.getCreationDate());
+        customerEntity.setUuid(dto.getUuid());
+        customerEntity.setIsCorporate(dto.getIsCorporate());
+        customerEntity.setTaxNumber(dto.getTaxNumber());
+        customerEntity.setTaxOffice(dto.getTaxOffice());
+        customerEntity.setPerson(personMapper.dtoToEntity(dto.getPerson()));
+        customerEntity.setOrderList(orderMapper.dtoListTOEntityList(dto.getOrderList()));
 
-        return entity;
+        return customerEntity;
     }
 
     @Override
     public List<CustomerDTO> entityListToDTOList(List<CustomerEntity> customerEntities) {
 
-        List<CustomerDTO> dtoList = new ArrayList<>();
-        for (CustomerEntity entity:customerEntities){
-            CustomerDTO dto = entityToDTO(entity);
-            dtoList.add(dto);
 
+        List<CustomerDTO> customerDTOS = new ArrayList<>();
+        for (CustomerEntity customer : customerEntities) {
+            customerDTOS.add(entityToDTO(customer));
         }
-        return dtoList;
+        return customerDTOS;
     }
 
     @Override
     public List<CustomerEntity> dtoListTOEntityList(List<CustomerDTO> customerDTOS) {
-        List<CustomerEntity> entityList = new ArrayList<>();
-        for (CustomerDTO dto:customerDTOS){
-            CustomerEntity entity = dtoToEntity(dto);
-            entityList.add(entity);
-
+        List<CustomerEntity> customerEntities = new ArrayList<>();
+        for (CustomerDTO customerDTO : customerDTOS) {
+            customerEntities.add(dtoToEntity(customerDTO));
         }
-        return entityList;
+        return customerEntities;
     }
 
     @Override
     public CustomerEntity requestDTOToEntity(CustomerRequestDTO dto) {
-        CustomerEntity entity = new CustomerEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setCompanyName(dto.getCompanyName());
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setTaxOffice(dto.getTaxOffice());
-        entity.setIsCorporate(dto.getIsCorporate());
-        entity.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
+        CustomerEntity customer = new CustomerEntity();
+        customer.setId(dto.getId());
+        customer.setCompanyName(dto.getCompanyName());
+        customer.setCreationDate(dto.getCreationDate());
+        customer.setUuid(dto.getUuid());
+        customer.setIsCorporate(dto.getIsCorporate());
+        customer.setUpdatedDate(dto.getUpdatedDate());
+        customer.setTaxNumber(dto.getTaxNumber());
+        customer.setTaxOffice(dto.getTaxOffice());
+        customer.setPerson(personMapper.requestDTOToEntity(dto.getPerson()));
+        customer.setOrderList(orderMapper.requestDTOListTOEntityList(dto.getOrderList()));
 
-        return entity;
+        return customer;
     }
 
     @Override
-    public List<CustomerEntity> requestDtoListTOEntityList(List<CustomerRequestDTO> customerRequestDTOS) {
-        return null;
-    }
-
-    @Override
-    public CustomerEntity requestDtoToExistEntity(CustomerRequestDTO dto, CustomerEntity entity) {
+    public List<CustomerEntity> requestDTOListTOEntityList(List<CustomerRequestDTO> customerRequestDTOS) {
         return null;
     }
 }

@@ -17,13 +17,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("PersonDTO")
-public class PersonController extends BaseController<PersonDTO, PersonEntity, PersonRequestDTO, PersonService> {
+public class PersonController extends BaseController<PersonEntity, PersonDTO, PersonRequestDTO, PersonService> {
 
     @Autowired
     PersonService personService;
 
+
     @Override
-    protected PersonService getBaseService() {
+    protected PersonService getService() {
         return personService;
     }
 }

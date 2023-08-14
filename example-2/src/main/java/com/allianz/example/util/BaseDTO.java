@@ -18,7 +18,4 @@ public class BaseDTO {
     private Date creationDate;
     private Date updatedDate;
 
-
-
-
 }

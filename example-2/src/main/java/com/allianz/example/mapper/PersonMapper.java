@@ -6,6 +6,8 @@ import com.allianz.example.model.requestDTO.PersonRequestDTO;
 import com.allianz.example.util.BaseDTO;
 import com.allianz.example.util.IBaseMapper;
 import com.allianz.example.util.dbutil.BaseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,7 +15,9 @@ import java.util.List;
 
 @Component
 public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, PersonRequestDTO> {
-
+    @Autowired
+    @Lazy
+    AddressMapper addressMapper;
 
     @Override
     public PersonDTO entityToDTO(PersonEntity entity) {
@@ -26,56 +30,72 @@ public class PersonMapper implements IBaseMapper<PersonDTO, PersonEntity, Person
         personDTO.setBirthYear(entity.getBirthYear());
         personDTO.setCreationDate(entity.getCreationDate());
         personDTO.setUpdatedDate(entity.getUpdatedDate());
+        personDTO.setAddressList(addressMapper.entityListToDTOList(entity.getAddressEntityList()));
 
         return personDTO;
     }
 
+
+
     @Override
     public PersonEntity dtoToEntity(PersonDTO dto) {
-        PersonEntity personEntity = new PersonEntity();
-        personEntity.setTc(dto.getTc());
-        personEntity.setName(dto.getName());
-        personEntity.setSurname(dto.getSurname());
-        personEntity.setId(dto.getId());
-        personEntity.setUuid(dto.getUuid());
-        personEntity.setBirthYear(dto.getBirthYear());
-        personEntity.setCreationDate(dto.getCreationDate());
-        personEntity.setUpdatedDate(dto.getUpdatedDate());
+        PersonEntity person = new PersonEntity();
+        person.setTc(dto.getTc());
+        person.setName(dto.getName());
+        person.setSurname(dto.getSurname());
+        person.setId(dto.getId());
+        person.setUuid(dto.getUuid());
+        person.setBirthYear(dto.getBirthYear());
+        person.setCreationDate(dto.getCreationDate());
+        person.setUpdatedDate(dto.getUpdatedDate());
 
-        return personEntity;
+
+        return person;
     }
 
     @Override
     public List<PersonDTO> entityListToDTOList(List<PersonEntity> personEntities) {
-        return null;
+        List<PersonDTO> PersonDTOS = new ArrayList<>();
+        for (PersonEntity person: personEntities) {
+            PersonDTOS.add(entityToDTO(person));
+        }
+        return PersonDTOS;
     }
 
     @Override
     public List<PersonEntity> dtoListTOEntityList(List<PersonDTO> personDTOS) {
-        return null;
+        List<PersonEntity> orderEntities = new ArrayList<>();
+        for (PersonDTO personDTO: personDTOS) {
+            orderEntities.add(dtoToEntity(personDTO));
+        }
+        return orderEntities;
+
     }
+
 
     @Override
     public PersonEntity requestDTOToEntity(PersonRequestDTO dto) {
-        PersonEntity personEntity = new PersonEntity();
-        personEntity.setTc(dto.getTc());
-        personEntity.setName(dto.getName());
-        personEntity.setSurname(dto.getSurname());
-        personEntity.setId(dto.getId());
-        personEntity.setUuid(dto.getUuid());
-        personEntity.setBirthYear(dto.getBirthYear());
-        personEntity.setCreationDate(dto.getCreationDate());
-        personEntity.setUpdatedDate(dto.getUpdatedDate());
-        return personEntity;
+        PersonEntity person = new PersonEntity();
+        person.setId(dto.getId());
+        person.setUuid(dto.getUuid());
+        person.setCreationDate(dto.getCreationDate());
+        person.setUpdatedDate(dto.getUpdatedDate());
+        person.setName(dto.getName());
+        person.setSurname(dto.getSurname());
+        person.setTc(dto.getTc());
+        person.setBirthYear(dto.getBirthYear());
+        person.setAddressEntityList(addressMapper.requestDTOListTOEntityList(dto.getAddressList()));
+
+        return person;
     }
 
     @Override
-    public List<PersonEntity> requestDtoListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
+    public PersonEntity requestDTOToExistEntity(PersonRequestDTO dto, PersonEntity entity) {
         return null;
     }
 
     @Override
-    public PersonEntity requestDtoToExistEntity(PersonRequestDTO dto, PersonEntity entity) {
+    public List<PersonEntity> requestDTOListTOEntityList(List<PersonRequestDTO> personRequestDTOS) {
         return null;
     }
 }

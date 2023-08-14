@@ -15,76 +15,98 @@ import java.util.List;
 @Component
 public class OrderMapper implements IBaseMapper<OrderDTO, OrderEntity, OrderRequestDTO> {
 
-    @Autowired
-    @Lazy
-    CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
+    private final OrderItemMapper orderItemMapper;
 
     @Autowired
-    OrderItemMapper orderItemMapper;
+    public OrderMapper(CustomerMapper customerMapper, OrderItemMapper orderItemMapper) {
+        this.customerMapper = customerMapper;
+        this.orderItemMapper = orderItemMapper;
+    }
 
     @Override
     public OrderDTO entityToDTO(OrderEntity entity) {
 
-        OrderDTO dto = new OrderDTO();
-        dto.setId(entity.getId());
-        dto.setUuid(entity.getUuid());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setUpdatedDate(entity.getUpdatedDate());
+        OrderDTO order = new OrderDTO();
+        order.setOrderStatus(entity.getOrderStatus());
+        order.setId(entity.getId());
+        order.setTotalSellPrice(entity.getTotalSellPrice());
+        order.setUuid(entity.getUuid());
+        order.setId(entity.getId());
+        order.setCreationDate(entity.getCreationDate());
+        order.setUpdatedDate(entity.getUpdatedDate());
+        order.setOrderStatus(entity.getOrderStatus());
+        order.setCustomer(customerMapper.entityToDTO(entity.getCustomer()));
+        order.setOrderItemList(orderItemMapper.entityListToDTOList(entity.getOrderItemList()));
 
-        dto.setCustomer(entity.getCustomer());
-        dto.setOrderStatus(entity.getOrderStatus());
-        dto.setOrderItemList(orderItemMapper.entityListToDTOList(entity.getOrderItemList()));
-        dto.setTotalSellPrice(entity.getTotalSellPrice());
-
-        return dto;
+        return order;
 
 
     }
 
     @Override
     public OrderEntity dtoToEntity(OrderDTO dto) {
-        OrderEntity entity = new OrderEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setCustomer(dto.getCustomer());
-        entity.setOrderStatus(dto.getOrderStatus());
-        entity.setOrderItemList(orderItemMapper.dtoListTOEntityList(dto.getOrderItemList()));
-        entity.setTotalSellPrice(dto.getTotalSellPrice());
-        return entity;
+        OrderEntity order = new OrderEntity();
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setId(dto.getId());
+        order.setTotalSellPrice(dto.getTotalSellPrice());
+        order.setUuid(dto.getUuid());
+        order.setId(dto.getId());
+        order.setCreationDate(dto.getCreationDate());
+        order.setUpdatedDate(dto.getUpdatedDate());
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setCustomer(customerMapper.dtoToEntity(dto.getCustomer()));
+        order.setOrderItemList(orderItemMapper.dtoListTOEntityList(dto.getOrderItemList()));
+
+        return order;
+
     }
 
     @Override
     public List<OrderDTO> entityListToDTOList(List<OrderEntity> orderEntities) {
-        return null;
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntities) {
+            orderDTOS.add(entityToDTO(orderEntity));
+        }
+        return orderDTOS;
     }
 
     @Override
     public List<OrderEntity> dtoListTOEntityList(List<OrderDTO> orderDTOS) {
-        return null;
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (OrderDTO order : orderDTOS) {
+            orderEntities.add(dtoToEntity(order));
+        }
+        return orderEntities;
+
     }
 
     @Override
     public OrderEntity requestDTOToEntity(OrderRequestDTO dto) {
-        OrderEntity entity = new OrderEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setOrderStatus(dto.getOrderStatus());
-        entity.setOrderItemList(orderItemMapper.requestDtoListTOEntityList(dto.getOrderItemList()));
-        entity.setTotalSellPrice(dto.getTotalSellPrice());
-        return entity;
+        OrderEntity order = new OrderEntity();
+        order.setId(dto.getId());
+        order.setCreationDate(dto.getCreationDate());
+        order.setUuid(dto.getUuid());
+        order.setUpdatedDate(dto.getUpdatedDate());
+        order.setOrderStatus(dto.getOrderStatus());
+        order.setCustomer(customerMapper.requestDTOToEntity(dto.getCustomer()));
+        order.setOrderItemList(orderItemMapper.requestDTOListTOEntityList(dto.getOrderItemList()));
+
+        return order;
     }
 
     @Override
-    public List<OrderEntity> requestDtoListTOEntityList(List<OrderRequestDTO> orderRequestDTOS) {
-        return null;
+    public List<OrderEntity> requestDTOListTOEntityList(List<OrderRequestDTO> orderRequestDTOS) {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        for (OrderRequestDTO orderRequest : orderRequestDTOS) {
+            orderEntities.add(requestDTOToEntity(orderRequest));
+        }
+        return orderEntities;
+
     }
 
     @Override
-    public OrderEntity requestDtoToExistEntity(OrderRequestDTO dto, OrderEntity entity) {
+    public OrderEntity requestDTOToExistEntity(OrderRequestDTO dto, OrderEntity entity) {
         return null;
     }
 }

@@ -10,9 +10,13 @@ import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.mapper.SellerMapper;
 import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.SellerDTO;
+import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.ProductRequestDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
+import com.allianz.example.model.requestDTO.TaxRequestDTO;
 import com.allianz.example.util.BaseService;
+import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.IBaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,53 +25,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductService extends BaseService<ProductDTO, ProductEntity, ProductRequestDTO> {
+public class ProductService extends BaseService<ProductEntity, ProductDTO,
+        ProductRequestDTO, IBaseMapper<ProductDTO, ProductEntity, ProductRequestDTO>, IBaseRepository<ProductEntity>> {
     @Autowired
-    ProductEntityRepository productEntityRepository;
+    private ProductMapper productMapper;
+
     @Autowired
-    ProductMapper productMapper;
+    private ProductEntityRepository productEntityRepository;
+
 
     @Override
-    public ProductDTO save(ProductRequestDTO productRequestDTO) {
-        ProductEntity product = productMapper.requestDTOToEntity(productRequestDTO);
-        productEntityRepository.save(product);
-        return productMapper.entityToDTO(product);
+    public ProductMapper getMapper() {
+        return productMapper;
     }
 
     @Override
-    public List<ProductDTO> getAll() {
-        List<ProductEntity> productEntities = productEntityRepository.findAll();
-        return productMapper.entityListToDTOList(productEntities);
+    public ProductEntityRepository getRepository() {
+        return productEntityRepository;
     }
-
-    @Override
-    public ProductDTO update(UUID uuid, ProductRequestDTO productRequestDTO) {
-        ProductEntity product = productEntityRepository.findByUuid(uuid).orElse(null);
-        if (product == null) {
-            return null;
-        }
-        return productMapper.entityToDTO(productEntityRepository.save(productMapper.requestDtoToExistEntity(
-                productRequestDTO, product)));
-    }
-
-    @Override
-    public Boolean delete(UUID uuid) {
-        ProductEntity productEntity = productEntityRepository.findByUuid(uuid).orElse(null);
-        if (productEntity == null) {
-            return false;
-        }
-        productEntityRepository.delete(productEntity);
-        return true;
-    }
-
-    @Override
-    public ProductDTO getSettingByUuid(UUID uuid) {
-        ProductEntity productEntity = productEntityRepository.findByUuid(uuid).orElse(null);
-        if (productEntity == null) {
-            return null;
-        }
-        return productMapper.entityToDTO(productEntity);
-    }
-
-
 }

@@ -1,0 +1,31 @@
+package com.example.salesproject.util;
+
+import com.example.salesproject.util.dbutil.BaseEntity;
+import org.springframework.data.repository.NoRepositoryBean;
+
+import java.util.List;
+import java.util.UUID;
+
+@NoRepositoryBean
+public abstract class BaseService<DTO extends BaseDTO, Entity extends BaseEntity, RequestDTO extends BaseDTO> {
+    public DTO save(RequestDTO requestDTO){
+        return null;
+    }
+
+    public List<DTO> getAll(){
+        return null;
+    }
+
+    public DTO update(UUID uuid, RequestDTO requestDTO){
+        return null;
+    }
+
+
+    public Boolean delete(UUID uuid){
+        return false;
+    }
+
+    public DTO getSettingByUuid(UUID uuid){
+        return null;
+    }
+}

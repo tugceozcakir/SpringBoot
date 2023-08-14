@@ -70,12 +70,17 @@ public class SettingsMapper implements IBaseMapper<SettingsDTO, SettingsEntity, 
     }
 
     @Override
-    public List<SettingsEntity> requestDtoListTOEntityList(List<SettingRequestDTO> settingRequestDTOS) {
+    public List<SettingsEntity> requestDTOListTOEntityList(List<SettingRequestDTO> settingRequestDTOS) {
         return null;
     }
-    public SettingsEntity requestDtoToExistEntity(SettingRequestDTO dto, SettingsEntity entity) {
+
+    @Override
+    public SettingsEntity requestDTOToExistEntity(SettingRequestDTO dto, SettingsEntity entity) {
         entity.setKey(dto.getKey());
-        entity.setValue(dto.getValue());
+        entity.setKey(dto.getValue());
+
         return entity;
     }
 }
+
+

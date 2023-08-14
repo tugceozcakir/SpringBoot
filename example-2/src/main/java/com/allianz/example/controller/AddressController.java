@@ -15,13 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/addresses")
-public class AddressController extends BaseController<AddressDTO, AddressEntity, AddressRequestDTO, AddressService> {
+public class AddressController extends BaseController<AddressEntity, AddressDTO, AddressRequestDTO, AddressService> {
 
     @Autowired
     AddressService addressService;
 
     @Override
-    protected AddressService getBaseService() {
+    protected AddressService getService() {
         return addressService;
     }
 }

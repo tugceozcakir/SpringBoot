@@ -4,28 +4,58 @@ import com.allianz.example.util.dbutil.BaseEntity;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@NoRepositoryBean
-public abstract class BaseService<DTO extends BaseDTO, Entity extends BaseEntity, RequestDTO extends BaseDTO> {
-    public DTO save(RequestDTO requestDTO){
-        return null;
+public abstract class BaseService<Entity extends BaseEntity, DTO extends BaseDTO,
+        RequestDTO extends BaseDTO, Mapper extends IBaseMapper<DTO, Entity, RequestDTO>,
+        Repository extends IBaseRepository<Entity>> {
+
+    public abstract Mapper getMapper();
+
+    public abstract Repository getRepository();
+
+    public DTO save(RequestDTO dto) {
+        Entity entity = getMapper().requestDTOToEntity(dto);
+        getRepository().save(entity);
+        return getMapper().entityToDTO(entity);
     }
 
-    public List<DTO> getAll(){
-        return null;
+    public DTO update(UUID uuid, RequestDTO dto) {
+        Entity entity = getRepository().findByUuid(uuid).orElse(null);
+
+        if (entity != null) {
+            entity = getMapper().requestDTOToExistEntity(dto, entity);
+            getRepository().save(entity);
+            return getMapper().entityToDTO(entity);
+        } else {
+            return null;
+        }
     }
 
-    public DTO update(UUID uuid, RequestDTO requestDTO){
-        return null;
+    public boolean deleteByUuid(UUID uuid) {
+        Optional<Entity> optionalEntity = getRepository().findByUuid(uuid);
+        if (optionalEntity.isPresent()) {
+            getRepository().deleteById(optionalEntity.get().getId());
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
-
-    public Boolean delete(UUID uuid){
-        return false;
+    public DTO getByUuid(UUID uuid) {
+        Optional<Entity> optionalEntity = getRepository().findByUuid(uuid);
+        if (optionalEntity.isPresent()) {
+            return getMapper().entityToDTO(optionalEntity.get());
+        } else {
+            return null;
+        }
     }
 
-    public DTO getSettingByUuid(UUID uuid){
-        return null;
+    public List<DTO> getAll() {
+        return getMapper().entityListToDTOList(getRepository().findAll());
     }
+
 }
+
+

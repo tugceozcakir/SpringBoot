@@ -4,6 +4,7 @@ import com.allianz.example.database.entity.AddressEntity;
 import com.allianz.example.model.AddressDTO;
 import com.allianz.example.model.requestDTO.AddressRequestDTO;
 import com.allianz.example.util.IBaseMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,6 +12,13 @@ import java.util.List;
 
 @Component
 public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, AddressRequestDTO> {
+    private final PersonMapper personMapper;
+
+    @Autowired
+    public AddressMapper(PersonMapper personMapper) {
+        this.personMapper = personMapper;
+    }
+
     @Override
     public AddressDTO entityToDTO(AddressEntity entity) {
         AddressDTO addressDTO = new AddressDTO();
@@ -20,14 +28,24 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
         addressDTO.setAddress(entity.getAddress());
         addressDTO.setTitle(entity.getTitle());
         addressDTO.setUpdatedDate(entity.getUpdatedDate());
-
+        addressDTO.setPerson(personMapper.entityToDTO(entity.getPerson()));
 
         return addressDTO;
     }
 
     @Override
     public AddressEntity dtoToEntity(AddressDTO dto) {
-        return null;
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setCreationDate(dto.getCreationDate());
+        addressEntity.setUuid(dto.getUuid());
+        addressEntity.setId(dto.getId());
+        addressEntity.setAddress(dto.getAddress());
+        addressEntity.setTitle(dto.getTitle());
+        addressEntity.setUpdatedDate(dto.getUpdatedDate());
+        addressEntity.setPerson(personMapper.dtoToEntity(dto.getPerson()));
+
+        return addressEntity;
+
     }
 
     @Override
@@ -43,7 +61,15 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
 
     @Override
     public List<AddressEntity> dtoListTOEntityList(List<AddressDTO> addressDTOS) {
-        return null;
+        List<AddressEntity> addressList = new ArrayList<>();
+
+        for (AddressDTO addressDTO:addressDTOS) {
+            addressList.add(dtoToEntity(addressDTO));
+        }
+
+        return addressList;
+
+
     }
 
     @Override
@@ -59,14 +85,12 @@ public class AddressMapper implements IBaseMapper<AddressDTO, AddressEntity, Add
     }
 
     @Override
-    public List<AddressEntity> requestDtoListTOEntityList(List<AddressRequestDTO> addressRequestDTOS) {
+    public List<AddressEntity> requestDTOListTOEntityList(List<AddressRequestDTO> addressRequestDTOS) {
         return null;
     }
 
     @Override
-    public AddressEntity requestDtoToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
+    public AddressEntity requestDTOToExistEntity(AddressRequestDTO dto, AddressEntity entity) {
         return null;
     }
-
-
 }

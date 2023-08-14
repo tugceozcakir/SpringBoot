@@ -19,103 +19,110 @@ import java.util.Set;
 @Component
 public class ProductMapper implements IBaseMapper<ProductDTO, ProductEntity, ProductRequestDTO> {
 
-    @Autowired
-    TaxMapper taxMapper;
-
+    private final TaxMapper taxMapper;
+    private final CategoryMapper categoryMapper;
     @Autowired
     @Lazy
-    CategoryMapper categoryMapper;
+    public ProductMapper(TaxMapper taxMapper, CategoryMapper categoryMapper) {
+        this.taxMapper = taxMapper;
+        this.categoryMapper = categoryMapper;
+    }
+
+
 
     @Override
     public ProductDTO entityToDTO(ProductEntity entity) {
-        ProductDTO dto = new ProductDTO();
-        dto.setId(entity.getId());
-        dto.setUuid(entity.getUuid());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setUpdatedDate(entity.getUpdatedDate());
-        dto.setName(entity.getName());
-        dto.setCode(entity.getCode());
-        dto.setQuantity(entity.getQuantity());
-        dto.setColor(entity.getColor());
-        dto.setTax(taxMapper.entityToDTO(entity.getTax()));
-        dto.setSellPrice(entity.getSellPrice());
-        dto.setBuyPrice(entity.getBuyPrice());
-        Set<CategoryDTO> categoryDTOS =
-                new HashSet<>(new ArrayList<>(categoryMapper.entityListToDTOList(new ArrayList<>(entity.getCategoryList()))));
-        dto.setCategoryList(categoryDTOS);
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setUuid(entity.getUuid());
+        productDTO.setCreationDate(entity.getCreationDate());
+        productDTO.setId(entity.getId());
+        productDTO.setUpdatedDate(entity.getUpdatedDate());
+        productDTO.setName(entity.getName());
+        productDTO.setQuantity(entity.getQuantity());
+        productDTO.setCode(entity.getCode());
+        productDTO.setColor(entity.getColor());
+        productDTO.setTax(taxMapper.entityToDTO(entity.getTax()));
+        productDTO.setBuyPrice(entity.getBuyPrice());
+        productDTO.setSellPrice(entity.getSellPrice());
+        Set<CategoryDTO> categoryDTOS = new HashSet<>(categoryMapper.entityListToDTOList(new ArrayList<>(entity.getCategoryList())));
+        productDTO.setCategoryList(categoryDTOS);
 
-        return dto;
+
+        return productDTO;
+
+
     }
 
     @Override
     public ProductEntity dtoToEntity(ProductDTO dto) {
-        ProductEntity entity = new ProductEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setName(dto.getName());
-        entity.setCode(dto.getCode());
-        entity.setQuantity(dto.getQuantity());
-        entity.setColor(dto.getColor());
-        entity.setTax(taxMapper.dtoToEntity(dto.getTax()));
-        entity.setSellPrice(dto.getSellPrice());
-        entity.setBuyPrice(dto.getBuyPrice());
-        Set<CategoryEntity> categoryDTOS =
-                new HashSet<>(new ArrayList<>(categoryMapper.dtoListTOEntityList(new ArrayList<>(dto.getCategoryList()))));
-        entity.setCategoryList(categoryDTOS);
+        ProductEntity product = new ProductEntity();
+        product.setUuid(dto.getUuid());
+        product.setCreationDate(dto.getCreationDate());
+        product.setId(dto.getId());
+        product.setUpdatedDate(dto.getUpdatedDate());
+        product.setName(dto.getName());
+        product.setQuantity(dto.getQuantity());
+        product.setCode(dto.getCode());
+        product.setColor(dto.getColor());
+        product.setTax(taxMapper.dtoToEntity(dto.getTax()));
+        product.setBuyPrice(dto.getBuyPrice());
+        product.setSellPrice(dto.getSellPrice());
+        Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.dtoListTOEntityList(new ArrayList<>(dto.getCategoryList())));
+        product.setCategoryList(categoryDTOS);
 
-        return entity;
+        return product;
     }
 
     @Override
     public List<ProductDTO> entityListToDTOList(List<ProductEntity> productEntities) {
-        List<ProductDTO> dtoList = new ArrayList<>();
-        for (ProductEntity entity : productEntities) {
-            ProductDTO dto = entityToDTO(entity);
-            dtoList.add(dto);
+        List<ProductDTO> dtos = new ArrayList<>();
+        for (ProductEntity entity: productEntities) {
+            dtos.add(entityToDTO(entity));
         }
-        return dtoList;
+        return dtos;
     }
 
     @Override
     public List<ProductEntity> dtoListTOEntityList(List<ProductDTO> productDTOS) {
-        List<ProductEntity> entityList = new ArrayList<>();
-        for (ProductDTO dto : productDTOS) {
-            ProductEntity entity = dtoToEntity(dto);
-            entityList.add(entity);
+        List<ProductEntity> entities = new ArrayList<>();
+        for (ProductDTO dto: productDTOS) {
+            entities.add(dtoToEntity(dto));
         }
-        return entityList;
+        return entities;
     }
 
     @Override
     public ProductEntity requestDTOToEntity(ProductRequestDTO dto) {
+
         ProductEntity entity = new ProductEntity();
         entity.setId(dto.getId());
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
         entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setUuid(dto.getUuid());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setId(dto.getId());
+        entity.setUpdatedDate(dto.getUpdatedDate());
         entity.setName(dto.getName());
-        entity.setCode(dto.getCode());
         entity.setQuantity(dto.getQuantity());
+        entity.setCode(dto.getCode());
         entity.setColor(dto.getColor());
         entity.setTax(taxMapper.requestDTOToEntity(dto.getTax()));
-        entity.setSellPrice(dto.getSellPrice());
         entity.setBuyPrice(dto.getBuyPrice());
-        Set<CategoryEntity> categoryDTOS =
-                new HashSet<>(new ArrayList<>(categoryMapper.requestDtoListTOEntityList(new ArrayList<>(dto.getCategoryList()))));
+        entity.setSellPrice(dto.getSellPrice());
+        Set<CategoryEntity> categoryDTOS = new HashSet<>(categoryMapper.requestDTOListTOEntityList(new ArrayList<>(dto.getCategoryList())));
         entity.setCategoryList(categoryDTOS);
+
         return entity;
     }
 
     @Override
-    public List<ProductEntity> requestDtoListTOEntityList(List<ProductRequestDTO> productRequestDTOS) {
+    public ProductEntity requestDTOToExistEntity(ProductRequestDTO dto, ProductEntity entity) {
         return null;
     }
 
     @Override
-    public ProductEntity requestDtoToExistEntity(ProductRequestDTO dto, ProductEntity entity) {
+    public List<ProductEntity> requestDTOListTOEntityList(List<ProductRequestDTO> productRequestDTOS) {
         return null;
     }
 }
-

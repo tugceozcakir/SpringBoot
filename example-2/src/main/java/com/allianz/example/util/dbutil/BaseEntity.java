@@ -34,7 +34,6 @@ public class BaseEntity {
     @LastModifiedDate
     private Date updatedDate;
 
-
     @PrePersist
     protected void onCreate() {
         setUuid(java.util.UUID.randomUUID());

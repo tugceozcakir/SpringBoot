@@ -15,13 +15,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/setting")
-public class SettingsController extends BaseController<SettingsDTO, SettingsEntity, SettingRequestDTO, SettingsService> {
+public class SettingsController extends BaseController<SettingsEntity, SettingsDTO, SettingRequestDTO, SettingsService> {
 
     @Autowired
     SettingsService settingService;
-
     @Override
-    protected SettingsService getBaseService() {
+    protected SettingsService getService() {
         return settingService;
     }
 }

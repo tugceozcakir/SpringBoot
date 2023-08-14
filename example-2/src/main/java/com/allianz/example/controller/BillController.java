@@ -15,14 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bills")
-public class BillController extends BaseController<BillDTO, BillEntity, BillRequestDTO, BillService> {
+public class BillController extends BaseController<BillEntity, BillDTO, BillRequestDTO, BillService> {
 
     @Autowired
     BillService billService;
 
-
     @Override
-    protected BillService getBaseService() {
+    protected BillService getService() {
         return billService;
     }
 }

@@ -9,9 +9,13 @@ import com.allianz.example.mapper.ProductMapper;
 import com.allianz.example.mapper.SettingsMapper;
 import com.allianz.example.model.ProductDTO;
 import com.allianz.example.model.SettingsDTO;
+import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.ProductRequestDTO;
 import com.allianz.example.model.requestDTO.SettingRequestDTO;
+import com.allianz.example.model.requestDTO.TaxRequestDTO;
 import com.allianz.example.util.BaseService;
+import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.IBaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,55 +27,24 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class SettingsService extends BaseService<SettingsDTO, SettingsEntity, SettingRequestDTO> {
+public class SettingsService extends BaseService<SettingsEntity,SettingsDTO,
+        SettingRequestDTO, IBaseMapper<SettingsDTO, SettingsEntity, SettingRequestDTO>, IBaseRepository<SettingsEntity>> {
 
     @Autowired
-    SettingsEntityRepository settingEntityRepository;
+    private SettingsMapper settingMapper;
 
     @Autowired
-    SettingsMapper settingMapper;
+    private SettingsEntityRepository settingEntityRepository;
+
 
     @Override
-    public SettingsDTO save(SettingRequestDTO settingRequestDTO) {
-        SettingsEntity setting = settingMapper.requestDTOToEntity(settingRequestDTO);
-        settingEntityRepository.save(setting);
-        return settingMapper.entityToDTO(setting);
+    public SettingsMapper getMapper() {
+        return settingMapper;
     }
 
     @Override
-    public List<SettingsDTO> getAll() {
-        List<SettingsEntity> settingsEntities = settingEntityRepository.findAll();
-        return settingMapper.entityListToDTOList(settingsEntities);
+    public SettingsEntityRepository getRepository() {
+        return settingEntityRepository;
     }
-
-    @Override
-    public SettingsDTO update(UUID uuid, SettingRequestDTO settingRequestDTO) {
-        SettingsEntity setting = settingEntityRepository.findByUuid(uuid).orElse(null);
-        if (setting == null) {
-            return null;
-        }
-        return settingMapper.entityToDTO(settingEntityRepository.save(settingMapper.requestDtoToExistEntity(
-                settingRequestDTO, setting)));
-    }
-
-    @Override
-    public Boolean delete(UUID uuid) {
-        SettingsEntity settingsEntity = settingEntityRepository.findByUuid(uuid).orElse(null);
-        if (settingsEntity == null) {
-            return false;
-        }
-        settingEntityRepository.delete(settingsEntity);
-        return true;
-    }
-
-    @Override
-    public SettingsDTO getSettingByUuid(UUID uuid) {
-        SettingsEntity settingsEntity = settingEntityRepository.findByUuid(uuid).orElse(null);
-        if (settingsEntity == null) {
-            return null;
-        }
-        return settingMapper.entityToDTO(settingsEntity);
-    }
-
 
 }

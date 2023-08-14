@@ -17,13 +17,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController extends BaseController<ProductDTO, ProductEntity, ProductRequestDTO, ProductService> {
+public class ProductController extends BaseController<ProductEntity,ProductDTO, ProductRequestDTO, ProductService> {
     @Autowired
     private ProductService productService;
 
+
     @Override
-    protected ProductService getBaseService(){
+    protected ProductService getService() {
         return productService;
     }
-
 }

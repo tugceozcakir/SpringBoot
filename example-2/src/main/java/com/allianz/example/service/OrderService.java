@@ -1,9 +1,6 @@
 package com.allianz.example.service;
 
-import com.allianz.example.database.entity.OrderEntity;
-import com.allianz.example.database.entity.OrderItemEntity;
-import com.allianz.example.database.entity.ProductEntity;
-import com.allianz.example.database.entity.SellerEntity;
+import com.allianz.example.database.entity.*;
 import com.allianz.example.database.repository.OrderEntityRepository;
 import com.allianz.example.database.repository.OrderItemRepository;
 import com.allianz.example.database.repository.ProductEntityRepository;
@@ -12,11 +9,16 @@ import com.allianz.example.mapper.OrderMapper;
 import com.allianz.example.mapper.SellerMapper;
 import com.allianz.example.model.OrderDTO;
 import com.allianz.example.model.SellerDTO;
+import com.allianz.example.model.TaxDTO;
 import com.allianz.example.model.requestDTO.OrderRequestDTO;
 import com.allianz.example.model.requestDTO.SellerRequestDTO;
+import com.allianz.example.model.requestDTO.TaxRequestDTO;
 import com.allianz.example.util.BaseService;
+import com.allianz.example.util.IBaseMapper;
+import com.allianz.example.util.IBaseRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,52 +26,26 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class OrderService extends BaseService<OrderDTO, OrderEntity, OrderRequestDTO> {
+public class OrderService extends BaseService<OrderEntity, OrderDTO,
+        OrderRequestDTO, IBaseMapper<OrderDTO, OrderEntity, OrderRequestDTO>, IBaseRepository<OrderEntity>> {
 
-    @Autowired
-    OrderEntityRepository orderEntityRepository;
-    @Autowired
-    OrderMapper orderMapper;
+    private OrderMapper orderMapper;
 
-    @Override
-    public OrderDTO save(OrderRequestDTO orderRequestDTO) {
-        OrderEntity order = orderMapper.requestDTOToEntity(orderRequestDTO);
-        orderEntityRepository.save(order);
-        return orderMapper.entityToDTO(order);
+    private OrderEntityRepository orderEntityRepository;
+
+    public OrderService(OrderMapper orderMapper, OrderEntityRepository orderEntityRepository) {
+        this.orderMapper = orderMapper;
+        this.orderEntityRepository = orderEntityRepository;
     }
 
     @Override
-    public List<OrderDTO> getAll() {
-        List<OrderEntity> orderEntities = orderEntityRepository.findAll();
-        return orderMapper.entityListToDTOList(orderEntities);
+    public OrderMapper getMapper() {
+        return null;
     }
 
     @Override
-    public OrderDTO update(UUID uuid, OrderRequestDTO orderRequestDTO) {
-        OrderEntity orderEntity = orderEntityRepository.findByUuid(uuid).orElse(null);
-        if (orderEntity == null) {
-            return null;
-        }
-        return orderMapper.entityToDTO(orderEntityRepository.save(orderMapper.requestDtoToExistEntity(
-                orderRequestDTO, orderEntity)));
+    public OrderEntityRepository getRepository() {
+        return null;
     }
 
-    @Override
-    public Boolean delete(UUID uuid) {
-        OrderEntity orderEntity = orderEntityRepository.findByUuid(uuid).orElse(null);
-        if (orderEntity == null) {
-            return false;
-        }
-        orderEntityRepository.delete(orderEntity);
-        return true;
-    }
-
-    @Override
-    public OrderDTO getSettingByUuid(UUID uuid) {
-        OrderEntity orderEntity = orderEntityRepository.findByUuid(uuid).orElse(null);
-        if (orderEntity == null) {
-            return null;
-        }
-        return orderMapper.entityToDTO(orderEntity);
-    }
 }

@@ -13,32 +13,31 @@ import java.util.List;
 
 @Component
 public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestDTO> {
+    private final OrderMapper orderMapper;
 
     @Autowired
-    //@Lazy
-    OrderMapper orderMapper;
-
-    @Override
-    public BillEntity requestDtoToExistEntity(BillRequestDTO dto, BillEntity entity) {
-        return null;
+    public BillMapper(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
     }
 
     @Override
     public BillDTO entityToDTO(BillEntity entity) {
-        BillDTO dto = new BillDTO();
-        dto.setBillDate(entity.getBillDate());
-        dto.setBillNo(entity.getBillNo());
-        dto.setTaxRate(entity.getTaxRate());
-        dto.setTaxAmount(entity.getTaxAmount());
-        dto.setTotalSellPrice(entity.getTotalSellPrice());
-        dto.setTotalSellNetPrice(entity.getTotalSellNetPrice());
-        dto.setOrder(orderMapper.entityToDTO(entity.getOrder()));
+        BillDTO billDTO = new BillDTO();
+        billDTO.setBillDate(entity.getBillDate());
+        billDTO.setBillNo(entity.getBillNo());
+        billDTO.setId(entity.getId());
+        billDTO.setTaxRate(entity.getTaxRate());
+        billDTO.setTaxAmount(entity.getTaxAmount());
+        billDTO.setUuid(entity.getUuid());
+        billDTO.setCreationDate(entity.getCreationDate());
+        billDTO.setUpdatedDate(entity.getUpdatedDate());
+        billDTO.setTotalSellNetPrice(entity.getTotalSellNetPrice());
+        billDTO.setTotalSellPrice(entity.getTotalSellPrice());
+        billDTO.setOrder(orderMapper.entityToDTO(entity.getOrder()));
 
-        dto.setId(entity.getId());
-        dto.setUuid(entity.getUuid());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setUpdatedDate(entity.getUpdatedDate());
-        return dto;
+        return billDTO;
+
+
     }
 
     @Override
@@ -46,61 +45,57 @@ public class BillMapper implements IBaseMapper<BillDTO, BillEntity, BillRequestD
         BillEntity entity = new BillEntity();
         entity.setBillDate(dto.getBillDate());
         entity.setBillNo(dto.getBillNo());
+        entity.setId(dto.getId());
         entity.setTaxRate(dto.getTaxRate());
         entity.setTaxAmount(dto.getTaxAmount());
-        entity.setTotalSellPrice(dto.getTotalSellPrice());
-        entity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
-        entity.setOrder(orderMapper.dtoToEntity(dto.getOrder()));
-
-        entity.setId(dto.getId());
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
         entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setOrder(orderMapper.dtoToEntity(dto.getOrder()));
+
         return entity;
     }
 
     @Override
     public List<BillDTO> entityListToDTOList(List<BillEntity> billEntities) {
-        List<BillDTO> dtoList = new ArrayList<>();
-        for (BillEntity entity:billEntities) {
-            BillDTO dto =entityToDTO(entity);
-            dtoList.add(dto);
+        List<BillDTO> billDTOList = new ArrayList<>();
+        for (BillEntity billEntity : billEntities) {
+            billDTOList.add(entityToDTO(billEntity));
         }
-
-        return dtoList;
+        return billDTOList;
     }
 
-    @Override
-    public List<BillEntity> dtoListTOEntityList(List<BillDTO> billDTOS) {
-        List<BillEntity> entityList = new ArrayList<>();
-        for (BillDTO dto:billDTOS) {
-            BillEntity entity =dtoToEntity(dto);
-            entityList.add(entity);
-        }
 
-        return entityList;
+    @Override
+
+    public List<BillEntity> dtoListTOEntityList(List<BillDTO> billDTOS) {
+        List<BillEntity> billEntityList = new ArrayList<>();
+        for (BillDTO billDTO : billDTOS) {
+            billEntityList.add(dtoToEntity(billDTO));
+        }
+        return billEntityList;
     }
 
     @Override
     public BillEntity requestDTOToEntity(BillRequestDTO dto) {
-        BillEntity entity = new BillEntity();
-        entity.setBillDate(dto.getBillDate());
-        entity.setBillNo(dto.getBillNo());
-        entity.setTaxRate(dto.getTaxRate());
-        entity.setTaxAmount(dto.getTaxAmount());
-        entity.setTotalSellPrice(dto.getTotalSellPrice());
-        entity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
-        entity.setOrder(orderMapper.requestDTOToEntity(dto.getOrder()));
-
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        return entity;
+        BillEntity billEntity = new BillEntity();
+        billEntity.setBillNo(dto.getBillNo());
+        billEntity.setTotalSellNetPrice(dto.getTotalSellPrice());
+        billEntity.setTotalSellNetPrice(dto.getTotalSellNetPrice());
+        billEntity.setId(dto.getId());
+        billEntity.setCreationDate(dto.getCreationDate());
+        billEntity.setUpdatedDate(dto.getUpdatedDate());
+        billEntity.setUuid(dto.getUuid());
+        return billEntity;
     }
 
     @Override
-    public List<BillEntity> requestDtoListTOEntityList(List<BillRequestDTO> billRequestDTOS) {
+    public List<BillEntity> requestDTOListTOEntityList(List<BillRequestDTO> billRequestDTOS) {
+        return null;
+    }
+
+    @Override
+    public BillEntity requestDTOToExistEntity(BillRequestDTO dto, BillEntity entity) {
         return null;
     }
 }

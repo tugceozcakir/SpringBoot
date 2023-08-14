@@ -13,92 +13,78 @@ import java.util.List;
 public class SellerMapper implements IBaseMapper<SellerDTO, SellerEntity, SellerRequestDTO> {
     @Override
     public SellerDTO entityToDTO(SellerEntity entity) {
-        SellerDTO dto = new SellerDTO();
-        dto.setId(entity.getId());
-        dto.setUuid(entity.getUuid());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setUpdatedDate(entity.getUpdatedDate());
-        dto.setTc(entity.getTc());
-        dto.setName(entity.getName());
-        dto.setSurname(entity.getSurname());
-        dto.setEmail(entity.getEmail());
-        dto.setShopName(entity.getShopName());
-        dto.setTaxNumber(entity.getTaxNumber());
-        dto.setTaxOffice(entity.getTaxOffice());
+        SellerDTO sellerDTO = new SellerDTO();
+        sellerDTO.setUuid(entity.getUuid());
+        sellerDTO.setCreationDate(entity.getCreationDate());
+        sellerDTO.setId(entity.getId());
+        sellerDTO.setUpdatedDate(entity.getUpdatedDate());
+        sellerDTO.setEmail(entity.getEmail());
+        sellerDTO.setTc(entity.getTc());
+        sellerDTO.setName(entity.getName());
+        sellerDTO.setShopName(entity.getShopName());
+        sellerDTO.setTaxNumber(entity.getTaxNumber());
+        sellerDTO.setTaxOffice(entity.getTaxOffice());
 
-        return dto;
+        return sellerDTO;
     }
 
     @Override
     public SellerEntity dtoToEntity(SellerDTO dto) {
-        SellerEntity entity = new SellerEntity();
-        entity.setId(dto.getId());
-        entity.setUuid(dto.getUuid());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setTc(dto.getTc());
-        entity.setName(dto.getName());
-        entity.setEmail(dto.getEmail());
-        entity.setSurname(dto.getSurname());
-        entity.setShopName(dto.getShopName());
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setTaxOffice(dto.getTaxOffice());
+        SellerEntity sellerEntity = new SellerEntity();
+        sellerEntity.setUuid(dto.getUuid());
+        sellerEntity.setCreationDate(dto.getCreationDate());
+        sellerEntity.setId(dto.getId());
+        sellerEntity.setUpdatedDate(dto.getUpdatedDate());
+        sellerEntity.setEmail(dto.getEmail());
+        sellerEntity.setTc(dto.getTc());
+        sellerEntity.setName(dto.getName());
+        sellerEntity.setShopName(dto.getShopName());
+        sellerEntity.setTaxNumber(dto.getTaxNumber());
+        sellerEntity.setTaxOffice(dto.getTaxOffice());
 
-        return entity;
+        return sellerEntity;
     }
 
     @Override
     public List<SellerDTO> entityListToDTOList(List<SellerEntity> sellerEntities) {
-        List<SellerDTO> dtoList = new ArrayList<>();
-        for (SellerEntity entity : sellerEntities) {
-            SellerDTO dto = entityToDTO(entity);
-            dtoList.add(dto);
+
+        List<SellerDTO> dtos = new ArrayList<>();
+        for (SellerEntity sellerEntity: sellerEntities) {
+            dtos.add(entityToDTO(sellerEntity));
         }
-        return dtoList;
+        return dtos;
     }
 
     @Override
     public List<SellerEntity> dtoListTOEntityList(List<SellerDTO> sellerDTOS) {
-        List<SellerEntity> sellerEntityList = new ArrayList<>();
-        for (SellerDTO dto : sellerDTOS) {
-            SellerEntity entity = dtoToEntity(dto);
-            sellerEntityList.add(entity);
+        List<SellerEntity> entities = new ArrayList<>();
+        for (SellerDTO dto: sellerDTOS) {
+            entities.add(dtoToEntity(dto));
         }
-        return sellerEntityList;
+        return entities;
     }
 
     @Override
     public SellerEntity requestDTOToEntity(SellerRequestDTO dto) {
+
         SellerEntity entity = new SellerEntity();
+        entity.setSurname(dto.getSurname());
+        entity.setName(dto.getName());
         entity.setId(dto.getId());
         entity.setUuid(dto.getUuid());
         entity.setCreationDate(dto.getCreationDate());
         entity.setUpdatedDate(dto.getUpdatedDate());
-        entity.setTc(dto.getTc());
-        entity.setName(dto.getName());
-        entity.setSurname(dto.getSurname());
-        entity.setEmail(dto.getEmail());
-        entity.setShopName(dto.getShopName());
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setTaxOffice(dto.getTaxOffice());
-
         return entity;
     }
 
     @Override
-    public List<SellerEntity> requestDtoListTOEntityList(List<SellerRequestDTO> sellerRequestDTOS) {
+    public SellerEntity requestDTOToExistEntity(SellerRequestDTO dto, SellerEntity entity) {
+
         return null;
     }
 
     @Override
-    public SellerEntity requestDtoToExistEntity(SellerRequestDTO dto, SellerEntity entity) {
-        entity.setEmail(dto.getEmail());
-        entity.setName(dto.getName());
-        entity.setSurname(dto.getSurname());
-        entity.setShopName(dto.getShopName());
-        entity.setTaxNumber(dto.getTaxNumber());
-        entity.setTaxOffice(dto.getTaxOffice());
-        entity.setTc(dto.getTc());
-        return entity;
+    public List<SellerEntity> requestDTOListTOEntityList(List<SellerRequestDTO> sellerRequestDTOS) {
+        return null;
     }
 }

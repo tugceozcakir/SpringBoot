@@ -15,14 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/customers")
-public class CustomerController extends BaseController<CustomerDTO, CustomerEntity, CustomerRequestDTO, CustomerService> {
+public class CustomerController extends BaseController<CustomerEntity, CustomerDTO, CustomerRequestDTO, CustomerService> {
 
     @Autowired
     CustomerService customerService;
 
-
     @Override
-    protected CustomerService getBaseService() {
+    protected CustomerService getService() {
         return customerService;
     }
 }

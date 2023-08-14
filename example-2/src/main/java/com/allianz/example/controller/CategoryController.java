@@ -15,14 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController extends BaseController<CategoryDTO, CategoryEntity, CategoryRequestDTO, CategoryService> {
+public class CategoryController extends BaseController<CategoryEntity, CategoryDTO, CategoryRequestDTO, CategoryService> {
 
     @Autowired
     CategoryService categoryService;
 
-
     @Override
-    protected CategoryService getBaseService() {
+    protected CategoryService getService() {
         return categoryService;
     }
 }
