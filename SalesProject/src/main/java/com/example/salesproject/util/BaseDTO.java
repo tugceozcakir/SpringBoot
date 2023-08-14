@@ -11,6 +11,7 @@ public class BaseDTO {
 
     @JsonIgnore
     private Long id;
+    @JsonIgnore
     private UUID uuid;
     @JsonIgnore
     private Date creationDate;
