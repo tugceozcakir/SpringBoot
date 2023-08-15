@@ -1,4 +1,9 @@
 package com.example.salesproject.database.repository;
 
-public interface SellerRepository {
+import com.example.salesproject.database.entity.SellerEntity;
+import com.example.salesproject.util.BaseRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SellerRepository extends BaseRepository<SellerEntity> {
 }

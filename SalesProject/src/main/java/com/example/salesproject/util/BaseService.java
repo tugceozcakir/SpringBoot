@@ -1,6 +1,13 @@
 package com.example.salesproject.util;
 
+import com.example.salesproject.model.PageDTO;
+import com.example.salesproject.model.requestDTO.BaseFilterRequestDTO;
 import com.example.salesproject.util.dbutil.BaseEntity;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpHeaders;
@@ -13,44 +20,72 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@NoRepositoryBean
-public abstract class BaseService<DTO extends BaseDTO,
+public abstract class BaseService<
         Entity extends BaseEntity,
+        DTO extends BaseDTO,
         RequestDTO extends BaseDTO,
         Mapper extends IBaseMapper<DTO, Entity, RequestDTO>,
-        Repository extends BaseRepository>
-{
-    public abstract Mapper getMapper();
-    public abstract Repository getRepository();
+        Repository extends BaseRepository<Entity>
+        > {
 
-    public DTO save(RequestDTO requestDTO){
+    protected abstract Mapper getMapper();
+
+    protected abstract Repository getRepository();
+
+    public DTO save(RequestDTO requestDTO) {
         Entity entity = getMapper().requestDTOToEntity(requestDTO);
         getRepository().save(entity);
         return getMapper().entityToDTO(entity);
     }
 
-    public DTO update(UUID uuid, RequestDTO requestDTO){
-        Optional<Entity> entity = getRepository().findByUuid(uuid);
-        if(entity.isPresent()){
-            Entity newEntity = getMapper().requestDTOToEntity(requestDTO);
-            getRepository().save(newEntity);
-            return getMapper().entityToDTO(newEntity);
-        } else{
+    public PageDTO<DTO> getAll(BaseFilterRequestDTO baseFilterRequestDTO) {
+        Pageable pageable;
+        if (baseFilterRequestDTO.getSortDTO() != null) {
+            if (baseFilterRequestDTO.getSortDTO().getDirectionEnum() == Sort.Direction.ASC) {
+                pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                        Sort.by(baseFilterRequestDTO.getSortDTO().getColumnName()).ascending());
+            } else {
+                pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                        Sort.by(baseFilterRequestDTO.getSortDTO().getColumnName()).descending());
+            }
+        } else {
+            pageable = PageRequest.of(baseFilterRequestDTO.getPageNumber(),baseFilterRequestDTO.getPageSize(),
+                    Sort.by("id").ascending());
+        }
+
+        Page<Entity> entityPage = getRepository().findAll(pageable);
+        return getMapper().pageEntityToPageDTO(entityPage);
+    }
+
+    public DTO update(UUID uuid, RequestDTO requestDTO) {
+        Entity entity = getRepository().findByUuid(uuid);
+        if (entity != null) {
+            entity = getMapper().requestDtoToExistEntity(entity, requestDTO);
+            getRepository().save(entity);
+            return getMapper().entityToDTO(entity);
+        } else {
             return null;
         }
     }
 
-    public Boolean deleteByUuid(UUID uuid){
-        Optional<Entity> entity = getRepository().findByUuid(uuid);
-        if(entity.isPresent()){
-            getRepository().delete(entity);
-            return true;
-        }else{
-            return false;
+    public DTO getByUUID(UUID uuid) {
+        Entity entity = getRepository().findByUuid(uuid);
+        if (entity != null) {
+            return getMapper().entityToDTO(entity);
+        } else {
+            return null;
         }
     }
 
-    public List<DTO> getAll(){
-        return getMapper().entityListToDTOList(getRepository().findAll());
+    public Boolean deleteByUUID(UUID uuid) {
+        Entity entity = getRepository().findByUuid(uuid);
+        if (entity != null) {
+            getRepository().delete(entity);
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
+
+
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public class CustomerRequestDTO extends BaseDTO {
-    private PersonDTO person;
+    private PersonRequestDTO person;
     private Boolean isCorporate;
     private String companyName;
     private String taxNumber;

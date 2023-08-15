@@ -1,10 +1,15 @@
 package com.example.salesproject.service;
 
 import com.example.salesproject.database.entity.AddressEntity;
+import com.example.salesproject.database.entity.BillEntity;
 import com.example.salesproject.database.repository.AddresRepository;
+import com.example.salesproject.database.repository.BillRepository;
 import com.example.salesproject.mapper.AddressMapper;
+import com.example.salesproject.mapper.BillMapper;
 import com.example.salesproject.model.AddressDTO;
+import com.example.salesproject.model.BillDTO;
 import com.example.salesproject.model.requestDTO.AddressRequestDTO;
+import com.example.salesproject.model.requestDTO.BillRequestDTO;
 import com.example.salesproject.util.BaseRepository;
 import com.example.salesproject.util.BaseService;
 import com.example.salesproject.util.IBaseMapper;
@@ -12,14 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressService extends BaseService<AddressDTO, AddressEntity,
-        AddressRequestDTO,
-        IBaseMapper<AddressDTO, AddressEntity, AddressRequestDTO>,
-        BaseRepository<AddressEntity>>{
-
+public class AddressService extends BaseService<AddressEntity, AddressDTO, AddressRequestDTO,
+        AddressMapper,AddresRepository> {
 
     @Autowired
-    AddresRepository addresRepository;
+    AddresRepository addressRepository;
 
     @Autowired
     AddressMapper addressMapper;
@@ -31,6 +33,6 @@ public class AddressService extends BaseService<AddressDTO, AddressEntity,
 
     @Override
     public AddresRepository getRepository() {
-        return addresRepository;
+        return addressRepository;
     }
 }
