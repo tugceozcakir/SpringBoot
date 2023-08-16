@@ -49,12 +49,18 @@ public class ProductService extends BaseService<ProductEntity, ProductDTO, Produ
         ProductDTO productDTO = productMapper.entityToDTO(productEntityRepository.save(productMapper.requestDTOToEntity(productRequestDTO)));
         for (CategoryRequestDTO categoryRequestDTO : categoryRequestDTOS) {
             if (productDTO.getCategoryList() != null) {
-                productDTO.getCategoryList().add(categoryService.getByUUID(categoryRequestDTO.getUuid()));
-                // Relation'ı kaydet.
-                categoryService.getByUUID(categoryRequestDTO.getUuid());
+                Set<CategoryDTO> categoryDTOSet = new HashSet<>(new ArrayList<>
+                        (productDTO.getCategoryList()));
+                Set<CategoryDTO> categoryDTOS = new HashSet<>();
+                for (CategoryDTO categoryDTO : categoryDTOSet) {
+                    if (categoryDTO != null) {
+                        CategoryDTO category = categoryService.getByUUID(categoryDTO.getUuid());
+                        categoryDTOS.add(category);
+                    }
+                }
+                productDTO.setCategoryList(categoryDTOS);
             } else {
                 Set<CategoryDTO> categoryDTOS = new HashSet<>();
-                categoryDTOS.add(categoryService.getByUUID(categoryRequestDTO.getUuid()));
                 productDTO.setCategoryList(categoryDTOS);
             }
         }

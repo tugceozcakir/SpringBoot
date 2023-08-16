@@ -11,24 +11,28 @@ import com.example.salesproject.util.IBaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class TaxService extends BaseService<TaxEntity,
-        TaxDTO, TaxRequestDTO, TaxMapper, TaxRepository> {
-
-
+public class TaxService extends BaseService<TaxEntity, TaxDTO, TaxRequestDTO, TaxMapper, TaxRepository> {
     @Autowired
-    TaxRepository taxRepository;
+    TaxRepository taxEntityRepository;
 
     @Autowired
     TaxMapper taxMapper;
 
     @Override
-    public TaxMapper getMapper() {
-        return taxMapper;
+    protected TaxMapper getMapper() {
+        return this.taxMapper;
     }
 
     @Override
-    public TaxRepository getRepository() {
-        return taxRepository;
+    protected TaxRepository getRepository() {
+        return this.taxEntityRepository;
+    }
+
+    @Override
+    public TaxDTO update(UUID uuid, TaxRequestDTO taxRequestDTO) {
+        return super.update(uuid, taxRequestDTO);
     }
 }

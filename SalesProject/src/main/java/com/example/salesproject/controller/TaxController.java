@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/taxes")
+@RequestMapping("taxes")
 public class TaxController extends BaseController<
         TaxEntity,
         TaxDTO,
@@ -24,9 +24,11 @@ public class TaxController extends BaseController<
     @Autowired
     TaxService taxService;
 
-
     @Override
     protected TaxService getService() {
-        return null;
+        return taxService;
     }
+
+
+
 }

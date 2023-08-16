@@ -13,7 +13,6 @@ import java.util.List;
 
 @Component
 public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> {
-
     @Override
     public TaxDTO entityToDTO(TaxEntity entity) {
         TaxDTO dto = new TaxDTO();
@@ -75,8 +74,6 @@ public class TaxMapper implements IBaseMapper<TaxDTO, TaxEntity, TaxRequestDTO> 
     public List<TaxEntity> requestDtoListTOEntityList(List<TaxRequestDTO> taxRequestDTOS) {
         return null;
     }
-
-
 
     @Override
     public TaxEntity requestDtoToExistEntity(TaxEntity entity, TaxRequestDTO taxRequestDTO) {
