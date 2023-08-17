@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
@@ -30,33 +31,24 @@ public class CustomerController {
         return allCustomer;
     }
 
-    @PutMapping
-    public String update(@RequestBody CustomerUpdateDTO customerUpdateDTO){
-        String id = customerService.updateCustomer(customerUpdateDTO);
-        return id;
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody CustomerUpdateDTO customerUpdateDTO) {
+        String result = customerService.updateCustomer(id, customerUpdateDTO);
+
+        if (result.equals("Success")) {
+            return ResponseEntity.ok("Customer updated successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id){
+        Boolean isDeleted = customerService.deleteById(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
+    }
 }

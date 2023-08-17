@@ -7,11 +7,12 @@ import com.tugceozcakir.customerregistationapp.model.CustomerUpdateDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
     String addCustomer(CustomerSaveDTO customerSaveDTO);
     List<CustomerDTO> getAllCustomer();
-    String updateCustomer(CustomerUpdateDTO customerUpdateDTO);
+    String updateCustomer(Long id, CustomerUpdateDTO customerUpdateDTO);
+    Boolean deleteById(Long id);
 
-    String deleteCustomer(Long id, CustomerDTO customerDTO);
 }

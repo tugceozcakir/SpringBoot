@@ -7,12 +7,15 @@ import com.tugceozcakir.customerregistationapp.model.CustomerDTO;
 import com.tugceozcakir.customerregistationapp.model.CustomerSaveDTO;
 import com.tugceozcakir.customerregistationapp.model.CustomerUpdateDTO;
 import com.tugceozcakir.customerregistationapp.service.CustomerService;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceIMPL implements CustomerService {
@@ -32,8 +35,9 @@ public class CustomerServiceIMPL implements CustomerService {
 
         customerRepository.save(customerEntity);
 
-        return "Success";
+        return "{\"message\": \"Successful\"}";
     }
+
 
     @Override
     public List<CustomerDTO> getAllCustomer() {
@@ -47,26 +51,31 @@ public class CustomerServiceIMPL implements CustomerService {
     }
 
     @Override
-    public String updateCustomer(CustomerUpdateDTO customerUpdateDTO) {
-        if(customerRepository.existsById(customerUpdateDTO.getId())){
-            CustomerEntity customerEntity = customerRepository.getById(customerUpdateDTO.getId());
+    public String updateCustomer(Long id, CustomerUpdateDTO customerUpdateDTO) {
+        CustomerEntity customerEntity = customerRepository.getById(id);
+
+        if (customerEntity != null) {
             customerEntity.setMobile(customerUpdateDTO.getMobile());
-            customerEntity.setId(customerUpdateDTO.getId());
             customerEntity.setName(customerUpdateDTO.getName());
             customerEntity.setAddress(customerUpdateDTO.getAddress());
 
             customerRepository.save(customerEntity);
             return "Success";
-        } else{
-            return "Customer Id don't exist.";
+        } else {
+            return "Customer not found for ID: " + id;
         }
     }
 
-    @Override
-    public String deleteCustomer(Long id,CustomerDTO customerDTO) {
-        CustomerEntity customerEntity = new CustomerEntity();
 
-        return null;
+    @Override
+    public Boolean deleteById(Long id) {
+        Optional<CustomerEntity> optionalEntity = customerRepository.findById(id);
+        if (optionalEntity.isPresent()) {
+            customerRepository.deleteById(id);
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
 }

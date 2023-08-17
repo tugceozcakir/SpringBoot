@@ -1,5 +1,6 @@
 package com.example.salesproject.configuration;
 
+import com.example.salesproject.database.entity.RoleEntity;
 import com.example.salesproject.database.repository.UserRepository;
 import com.example.salesproject.util.security.JWTFilter;
 import com.example.salesproject.util.security.SecurityService;
@@ -33,7 +34,6 @@ public class SecurityConfiguration {
     @Autowired
     private SecurityService uds;
 
-    // Kimlik doğrulama yapılmayacak URL listesi
     private static final String[] AUTH_WHITELIST = {
             "/auth/**",
             "/swagger-ui/**",
