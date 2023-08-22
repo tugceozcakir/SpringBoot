@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.PersonEntity;
 import com.example.salesproject.database.repository.PersonRepository;
+import com.example.salesproject.database.specification.PersonSpecification;
 import com.example.salesproject.mapper.PersonMapper;
 import com.example.salesproject.model.PersonDTO;
 import com.example.salesproject.model.requestDTO.PersonRequestDTO;
@@ -12,20 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("person")
 public class PersonController extends BaseController<
         PersonEntity,
         PersonDTO,
         PersonRequestDTO,
         PersonMapper,
         PersonRepository,
+        PersonSpecification,
         PersonService> {
-   @Autowired
-   PersonService personService;
 
+    @Autowired
+    PersonService personService;
 
     @Override
     protected PersonService getService() {
-        return personService;
+        return this.personService;
     }
 }

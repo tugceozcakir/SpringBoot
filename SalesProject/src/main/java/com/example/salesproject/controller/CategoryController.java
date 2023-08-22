@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.CategoryEntity;
 import com.example.salesproject.database.repository.CategoryRepository;
+import com.example.salesproject.database.specification.CategorySpecification;
 import com.example.salesproject.mapper.CategoryMapper;
 import com.example.salesproject.model.CategoryDTO;
 import com.example.salesproject.model.requestDTO.CategoryRequestDTO;
@@ -12,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("category")
 public class CategoryController extends BaseController<
         CategoryEntity,
         CategoryDTO,
         CategoryRequestDTO,
         CategoryMapper,
         CategoryRepository,
+        CategorySpecification,
         CategoryService> {
 
     @Autowired
@@ -26,6 +28,6 @@ public class CategoryController extends BaseController<
 
     @Override
     protected CategoryService getService() {
-        return categoryService;
+        return this.categoryService;
     }
 }

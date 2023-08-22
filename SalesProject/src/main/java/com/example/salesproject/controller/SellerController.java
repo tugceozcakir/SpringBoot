@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.SellerEntity;
 import com.example.salesproject.database.repository.SellerRepository;
+import com.example.salesproject.database.specification.SellerSpecification;
 import com.example.salesproject.mapper.SellerMapper;
 import com.example.salesproject.model.SellerDTO;
 import com.example.salesproject.model.requestDTO.SellerRequestDTO;
@@ -12,20 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sellers")
+@RequestMapping("seller")
 public class SellerController extends BaseController<
         SellerEntity,
         SellerDTO,
         SellerRequestDTO,
         SellerMapper,
         SellerRepository,
-        SellerService>  {
+        SellerSpecification,
+        SellerService> {
 
     @Autowired
     SellerService sellerService;
 
     @Override
     protected SellerService getService() {
-        return sellerService;
+        return this.sellerService;
     }
 }

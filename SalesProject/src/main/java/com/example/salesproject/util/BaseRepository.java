@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @NoRepositoryBean
-public interface BaseRepository<Entity> extends JpaRepository<Entity, Long>, JpaSpecificationExecutor<Entity> {
-    Entity findByUuid(UUID uuid);
+public interface BaseRepository<T> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
+    Optional<T> findByUuid(UUID uuid);
 }

@@ -2,6 +2,7 @@ package com.example.salesproject.service;
 
 import com.example.salesproject.database.entity.CustomerEntity;
 import com.example.salesproject.database.repository.CustomerRepository;
+import com.example.salesproject.database.specification.CustomerSpecification;
 import com.example.salesproject.mapper.CustomerMapper;
 import com.example.salesproject.model.CustomerDTO;
 import com.example.salesproject.model.requestDTO.CustomerRequestDTO;
@@ -13,21 +14,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService extends BaseService<CustomerEntity, CustomerDTO, CustomerRequestDTO,
-        CustomerMapper, CustomerRepository> {
+        CustomerMapper, CustomerRepository, CustomerSpecification> {
+
+    @Autowired
+    CustomerRepository customerEntityRepository;
 
     @Autowired
     CustomerMapper customerMapper;
 
-    @Autowired
-    CustomerRepository customerRepository;
-
     @Override
-    public CustomerMapper getMapper() {
-        return customerMapper;
+    protected CustomerMapper getMapper() {
+        return this.customerMapper;
     }
 
     @Override
-    public CustomerRepository getRepository() {
-        return customerRepository;
+    protected CustomerRepository getRepository() {
+        return this.customerEntityRepository;
+    }
+
+    @Override
+    protected CustomerSpecification getSpecification() {
+        return null;
     }
 }

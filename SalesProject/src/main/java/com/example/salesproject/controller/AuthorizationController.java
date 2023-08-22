@@ -21,7 +21,6 @@ import java.util.Map;
 @RequestMapping("auth")
 public class AuthorizationController {
 
-
     @Autowired
     private AuthenticationManager authManager;
 

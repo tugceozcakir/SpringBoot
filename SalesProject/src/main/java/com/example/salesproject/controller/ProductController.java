@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.ProductEntity;
 import com.example.salesproject.database.repository.ProductRepository;
+import com.example.salesproject.database.specification.ProductSpecification;
 import com.example.salesproject.mapper.ProductMapper;
 import com.example.salesproject.model.ProductDTO;
 import com.example.salesproject.model.requestDTO.ProductRequestDTO;
@@ -23,6 +24,7 @@ public class ProductController extends BaseController<
         ProductRequestDTO,
         ProductMapper,
         ProductRepository,
+        ProductSpecification,
         ProductService> {
     @Autowired
     ProductService productService;

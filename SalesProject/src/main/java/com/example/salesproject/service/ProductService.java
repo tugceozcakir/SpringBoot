@@ -2,6 +2,7 @@ package com.example.salesproject.service;
 
 import com.example.salesproject.database.entity.ProductEntity;
 import com.example.salesproject.database.repository.ProductRepository;
+import com.example.salesproject.database.specification.ProductSpecification;
 import com.example.salesproject.mapper.ProductMapper;
 import com.example.salesproject.model.CategoryDTO;
 import com.example.salesproject.model.ProductDTO;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 @Service
 public class ProductService extends BaseService<ProductEntity, ProductDTO, ProductRequestDTO,
-        ProductMapper, ProductRepository> {
+        ProductMapper, ProductRepository, ProductSpecification> {
 
     @Autowired
     ProductRepository productEntityRepository;
@@ -30,6 +31,9 @@ public class ProductService extends BaseService<ProductEntity, ProductDTO, Produ
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    ProductSpecification productSpecification;
 
     @Override
     protected ProductMapper getMapper() {
@@ -41,6 +45,11 @@ public class ProductService extends BaseService<ProductEntity, ProductDTO, Produ
         return this.productEntityRepository;
     }
 
+    @Override
+    protected ProductSpecification getSpecification() {
+        return productSpecification;
+    }
+
     @Transactional
     public ProductDTO saveWithCategory(ProductRequestDTO productRequestDTO) {
         Set<CategoryRequestDTO> categoryRequestDTOS = new HashSet<>(new ArrayList<>(productRequestDTO.getCategoryList()));
@@ -49,18 +58,12 @@ public class ProductService extends BaseService<ProductEntity, ProductDTO, Produ
         ProductDTO productDTO = productMapper.entityToDTO(productEntityRepository.save(productMapper.requestDTOToEntity(productRequestDTO)));
         for (CategoryRequestDTO categoryRequestDTO : categoryRequestDTOS) {
             if (productDTO.getCategoryList() != null) {
-                Set<CategoryDTO> categoryDTOSet = new HashSet<>(new ArrayList<>
-                        (productDTO.getCategoryList()));
-                Set<CategoryDTO> categoryDTOS = new HashSet<>();
-                for (CategoryDTO categoryDTO : categoryDTOSet) {
-                    if (categoryDTO != null) {
-                        CategoryDTO category = categoryService.getByUUID(categoryDTO.getUuid());
-                        categoryDTOS.add(category);
-                    }
-                }
-                productDTO.setCategoryList(categoryDTOS);
+                productDTO.getCategoryList().add(categoryService.getByUUID(categoryRequestDTO.getUuid()));
+                // Relation'ı kaydet.
+//                categoryService.getByUUID(categoryRequestDTO.getUuid()).setProductList();
             } else {
                 Set<CategoryDTO> categoryDTOS = new HashSet<>();
+                categoryDTOS.add(categoryService.getByUUID(categoryRequestDTO.getUuid()));
                 productDTO.setCategoryList(categoryDTOS);
             }
         }

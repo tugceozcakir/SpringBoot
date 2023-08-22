@@ -25,12 +25,16 @@ public abstract class BaseService<
         DTO extends BaseDTO,
         RequestDTO extends BaseDTO,
         Mapper extends IBaseMapper<DTO, Entity, RequestDTO>,
-        Repository extends BaseRepository<Entity>
+        Repository extends BaseRepository<Entity>,
+        Specification extends BaseSpecification<Entity>
         > {
 
     protected abstract Mapper getMapper();
 
     protected abstract Repository getRepository();
+
+
+    protected abstract Specification getSpecification();
 
     public DTO save(RequestDTO requestDTO) {
         Entity entity = getMapper().requestDTOToEntity(requestDTO);
@@ -53,12 +57,14 @@ public abstract class BaseService<
                     Sort.by("id").ascending());
         }
 
-        Page<Entity> entityPage = getRepository().findAll(pageable);
+        getSpecification().setCriteriaList(baseFilterRequestDTO.getFilters());
+
+        Page<Entity> entityPage = getRepository().findAll(getSpecification(),pageable);
         return getMapper().pageEntityToPageDTO(entityPage);
     }
 
     public DTO update(UUID uuid, RequestDTO requestDTO) {
-        Entity entity = getRepository().findByUuid(uuid);
+        Entity entity = getRepository().findByUuid(uuid).orElse(null);
         if (entity != null) {
             entity = getMapper().requestDtoToExistEntity(entity, requestDTO);
             getRepository().save(entity);
@@ -69,7 +75,7 @@ public abstract class BaseService<
     }
 
     public DTO getByUUID(UUID uuid) {
-        Entity entity = getRepository().findByUuid(uuid);
+        Entity entity = getRepository().findByUuid(uuid).orElse(null);
         if (entity != null) {
             return getMapper().entityToDTO(entity);
         } else {
@@ -78,7 +84,7 @@ public abstract class BaseService<
     }
 
     public Boolean deleteByUUID(UUID uuid) {
-        Entity entity = getRepository().findByUuid(uuid);
+        Entity entity = getRepository().findByUuid(uuid).orElse(null);
         if (entity != null) {
             getRepository().delete(entity);
             return Boolean.TRUE;

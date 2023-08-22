@@ -2,6 +2,7 @@ package com.example.salesproject.service;
 
 import com.example.salesproject.database.entity.TaxEntity;
 import com.example.salesproject.database.repository.TaxRepository;
+import com.example.salesproject.database.specification.TaxSpecification;
 import com.example.salesproject.mapper.TaxMapper;
 import com.example.salesproject.model.TaxDTO;
 import com.example.salesproject.model.requestDTO.TaxRequestDTO;
@@ -14,13 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class TaxService extends BaseService<TaxEntity, TaxDTO, TaxRequestDTO, TaxMapper, TaxRepository> {
+public class TaxService extends
+        BaseService<TaxEntity, TaxDTO, TaxRequestDTO, TaxMapper, TaxRepository, TaxSpecification> {
     @Autowired
     TaxRepository taxEntityRepository;
 
     @Autowired
     TaxMapper taxMapper;
 
+    @Autowired
+    TaxSpecification specification;
     @Override
     protected TaxMapper getMapper() {
         return this.taxMapper;
@@ -29,6 +33,11 @@ public class TaxService extends BaseService<TaxEntity, TaxDTO, TaxRequestDTO, Ta
     @Override
     protected TaxRepository getRepository() {
         return this.taxEntityRepository;
+    }
+
+    @Override
+    protected TaxSpecification getSpecification() {
+        return specification;
     }
 
     @Override

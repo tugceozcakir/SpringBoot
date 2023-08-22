@@ -3,6 +3,7 @@ package com.example.salesproject.service;
 import com.example.salesproject.database.entity.AddressEntity;
 import com.example.salesproject.database.entity.BillEntity;
 import com.example.salesproject.database.repository.BillRepository;
+import com.example.salesproject.database.specification.BillSpecification;
 import com.example.salesproject.mapper.BillMapper;
 import com.example.salesproject.model.AddressDTO;
 import com.example.salesproject.model.BillDTO;
@@ -16,21 +17,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BillService extends BaseService<BillEntity, BillDTO, BillRequestDTO,
-        BillMapper, BillRepository> {
+        BillMapper, BillRepository, BillSpecification> {
+
+    @Autowired
+    BillRepository billEntityRepository;
 
     @Autowired
     BillMapper billMapper;
 
+
     @Autowired
-    BillRepository billRepository;
+    BillSpecification billSpecification;
 
     @Override
-    public BillMapper getMapper() {
-        return billMapper;
+    protected BillMapper getMapper() {
+        return this.billMapper;
     }
 
     @Override
-    public BillRepository getRepository() {
-        return billRepository;
+    protected BillRepository getRepository() {
+        return this.billEntityRepository;
     }
+
+    @Override
+    protected BillSpecification getSpecification() {
+        return billSpecification;
+    }
+
 }
+

@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.OrderEntity;
 import com.example.salesproject.database.repository.OrderRepository;
+import com.example.salesproject.database.specification.OrderSpecification;
 import com.example.salesproject.mapper.OrderMapper;
 import com.example.salesproject.model.OrderDTO;
 import com.example.salesproject.model.requestDTO.OrderRequestDTO;
@@ -12,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("order")
 public class OrderController extends BaseController<
         OrderEntity,
         OrderDTO,
         OrderRequestDTO,
         OrderMapper,
         OrderRepository,
+        OrderSpecification,
         OrderService> {
 
     @Autowired
@@ -26,6 +28,6 @@ public class OrderController extends BaseController<
 
     @Override
     protected OrderService getService() {
-        return orderService;
+        return this.orderService;
     }
 }

@@ -26,13 +26,13 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    // UserRepository ve diğer bağımlılıkları enjekte etmek için kullanılır
     @Autowired
     private UserRepository userRepo;
     @Autowired
     private JWTFilter filter;
     @Autowired
     private SecurityService uds;
+
 
     private static final String[] AUTH_WHITELIST = {
             "/auth/**",
@@ -45,22 +45,29 @@ public class SecurityConfiguration {
             "/api/public/**",
             "/api/public/authenticate",
             "/actuator/*",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/tax",
+            "/tax/**",
+            "/category/**",
+            "/category",
+            "/product/**",
+            "/product"
+
     };
 
-    // Web güvenliğini yapılandıran metod
+
+    private static final String[] USER_AUTH_WHITELIST = {
+            "/selam"
+
+    };
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         System.out.println("security");
-
-        // FrameOptions devre dışı bırakılıyor
         http.headers().frameOptions().disable();
-
-        // CSRF, HTTP Basic kimlik doğrulama devre dışı bırakılıyor
         http.csrf().disable()
                 .httpBasic().disable()
-
-                // CORS konfigürasyonu yapılıyor
                 .cors()
                 .configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
@@ -70,44 +77,37 @@ public class SecurityConfiguration {
                     configuration.setExposedHeaders(List.of("Content-Disposition"));
                     return configuration;
                 }).and()
-
-                // Kimlik doğrulama gerektirmeyen URL'ler belirleniyor
                 .authorizeHttpRequests()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
-
+                .requestMatchers(USER_AUTH_WHITELIST).hasRole("user")
                 .and()
 
-                // Kullanıcı hizmeti belirleniyor
                 .userDetailsService(uds)
-
-                // Kimlik doğrulama hatası yönetimi yapılıyor
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, authException) ->
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
                 )
                 .and()
-
-                // Oturum yönetimi yapılandırılıyor
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // Özel JWT filtresi ekleniyor
+
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // Şifre kodlayıcı (encoder) bean'i oluşturuluyor
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Kimlik doğrulama yöneticisi bean'i oluşturuluyor
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-}
 
+
+}

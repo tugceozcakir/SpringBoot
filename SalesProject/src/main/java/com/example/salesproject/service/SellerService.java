@@ -2,6 +2,7 @@ package com.example.salesproject.service;
 
 import com.example.salesproject.database.entity.SellerEntity;
 import com.example.salesproject.database.repository.SellerRepository;
+import com.example.salesproject.database.specification.SellerSpecification;
 import com.example.salesproject.mapper.SellerMapper;
 import com.example.salesproject.model.SellerDTO;
 import com.example.salesproject.model.requestDTO.SellerRequestDTO;
@@ -12,22 +13,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SellerService extends BaseService<SellerEntity,
-        SellerDTO, SellerRequestDTO, SellerMapper, SellerRepository> {
-
+public class SellerService extends
+        BaseService<SellerEntity, SellerDTO, SellerRequestDTO, SellerMapper, SellerRepository, SellerSpecification> {
     @Autowired
-    SellerRepository sellerRepository;
+    SellerRepository sellerEntityRepository;
 
     @Autowired
     SellerMapper sellerMapper;
 
     @Override
-    public SellerMapper getMapper() {
-        return sellerMapper;
+    protected SellerMapper getMapper() {
+        return this.sellerMapper;
     }
 
     @Override
-    public SellerRepository getRepository() {
-        return sellerRepository;
+    protected SellerRepository getRepository() {
+        return this.sellerEntityRepository;
+    }
+
+    @Override
+    protected SellerSpecification getSpecification() {
+        return null;
     }
 }

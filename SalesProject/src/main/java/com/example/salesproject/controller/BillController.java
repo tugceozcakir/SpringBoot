@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.BillEntity;
 import com.example.salesproject.database.repository.BillRepository;
+import com.example.salesproject.database.specification.BillSpecification;
 import com.example.salesproject.mapper.BillMapper;
 import com.example.salesproject.model.BillDTO;
 import com.example.salesproject.model.requestDTO.BillRequestDTO;
@@ -12,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/bill")
+@RequestMapping("bill")
 public class BillController extends BaseController<
         BillEntity,
         BillDTO,
         BillRequestDTO,
         BillMapper,
         BillRepository,
+        BillSpecification,
         BillService> {
 
     @Autowired
@@ -26,6 +28,6 @@ public class BillController extends BaseController<
 
     @Override
     protected BillService getService() {
-        return billService;
+        return this.billService;
     }
 }

@@ -4,6 +4,7 @@ import com.example.salesproject.database.entity.SellerEntity;
 import com.example.salesproject.database.entity.SettingEntity;
 import com.example.salesproject.database.repository.SellerRepository;
 import com.example.salesproject.database.repository.SettingRepository;
+import com.example.salesproject.database.specification.SettingSpecification;
 import com.example.salesproject.mapper.SellerMapper;
 import com.example.salesproject.mapper.SettingMapper;
 import com.example.salesproject.model.SettingDTO;
@@ -17,21 +18,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SettingService extends BaseService<SettingEntity, SettingDTO, SettingRequestDTO,
-        SettingMapper, SettingRepository>  {
+        SettingMapper, SettingRepository, SettingSpecification> {
 
     @Autowired
-    SettingRepository settingRepository;
+    SettingRepository settingEntityRepository;
 
     @Autowired
     SettingMapper settingMapper;
 
+
     @Override
-    public SettingMapper getMapper() {
-        return settingMapper;
+    protected SettingMapper getMapper() {
+        return this.settingMapper;
     }
 
     @Override
-    public SettingRepository getRepository() {
-        return settingRepository;
+    protected SettingRepository getRepository() {
+        return this.settingEntityRepository;
+    }
+
+    @Override
+    protected SettingSpecification getSpecification() {
+        return null;
     }
 }

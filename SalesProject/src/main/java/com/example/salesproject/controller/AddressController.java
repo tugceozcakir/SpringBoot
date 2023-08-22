@@ -2,6 +2,7 @@ package com.example.salesproject.controller;
 
 import com.example.salesproject.database.entity.AddressEntity;
 import com.example.salesproject.database.repository.AddresRepository;
+import com.example.salesproject.database.specification.AddressSpecification;
 import com.example.salesproject.mapper.AddressMapper;
 import com.example.salesproject.model.AddressDTO;
 import com.example.salesproject.model.requestDTO.AddressRequestDTO;
@@ -14,19 +15,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 @RestController
-@RequestMapping("/addresses")
+@RequestMapping("address")
 public class AddressController extends BaseController<
         AddressEntity,
         AddressDTO,
         AddressRequestDTO,
         AddressMapper,
         AddresRepository,
+        AddressSpecification,
         AddressService> {
+
     @Autowired
-    private AddressService addressService;
+    AddressService addressService;
+
     @Override
     protected AddressService getService() {
-        return addressService;
+        return this.addressService;
     }
 }
 

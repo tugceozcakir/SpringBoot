@@ -4,6 +4,7 @@ import com.example.salesproject.database.entity.AddressEntity;
 import com.example.salesproject.database.entity.BillEntity;
 import com.example.salesproject.database.repository.AddresRepository;
 import com.example.salesproject.database.repository.BillRepository;
+import com.example.salesproject.database.specification.AddressSpecification;
 import com.example.salesproject.mapper.AddressMapper;
 import com.example.salesproject.mapper.BillMapper;
 import com.example.salesproject.model.AddressDTO;
@@ -18,21 +19,30 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AddressService extends BaseService<AddressEntity, AddressDTO, AddressRequestDTO,
-        AddressMapper,AddresRepository> {
+        AddressMapper,AddresRepository, AddressSpecification> {
 
     @Autowired
-    AddresRepository addressRepository;
+    AddresRepository addressEntityRepository;
 
     @Autowired
     AddressMapper addressMapper;
 
+    @Autowired
+    AddressSpecification addressSpecification;
+
     @Override
-    public AddressMapper getMapper() {
-        return addressMapper;
+    protected AddressMapper getMapper() {
+        return this.addressMapper;
     }
 
     @Override
-    public AddresRepository getRepository() {
-        return addressRepository;
+    protected AddresRepository getRepository() {
+        return this.addressEntityRepository;
     }
+
+    @Override
+    protected AddressSpecification getSpecification() {
+        return addressSpecification;
+    }
+
 }
