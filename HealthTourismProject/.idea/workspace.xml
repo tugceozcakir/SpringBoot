@@ -4,7 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44838477-f52a-4e20-9722-02b3beb27ddc" name="Changes" comment="" />
+    <list default="true" id="44838477-f52a-4e20-9722-02b3beb27ddc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/AirplaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/AirplaneController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/DoctorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/ReservationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/controller/RoomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/AirplaneEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/AirplaneEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/DoctorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/DoctorEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/ReservationEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/ReservationEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/RoomEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/RoomEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/repository/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/database/repository/ReservationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/AirplaneMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/AirplaneMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/DoctorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/DoctorMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/ReservationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/ReservationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/RoomMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/RoomMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/AirplaneDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/AirplaneDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/DoctorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/DoctorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/ReservationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/ReservationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/RoomDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/RoomDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/AirplaneRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/AirplaneRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/DoctorRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/DoctorRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/ReservationRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/ReservationRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/RoomRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/RoomRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/model/requestDTO/UserRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/AirplaneService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/AirplaneService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/DoctorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/service/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/util/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/util/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/util/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject/util/BaseService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +51,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -44,7 +76,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tugceozcakir/Desktop/Spring/HealthTourismProject/src/main/java/com/tugceozcakir/healthtourismproject&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tugceozcakir/Desktop/HealthTourismProject&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -63,6 +95,7 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/tugceozcakir/healthtourismproject" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.tugceozcakir.healthtourismproject.database.specification" />
       <recent name="com.tugceozcakir.healthtourismproject.controller" />
       <recent name="com.tugceozcakir.healthtourismproject.database.repository" />
     </key>
@@ -85,14 +118,25 @@
       <option name="presentableId" value="Default" />
       <updated>1692697271849</updated>
       <workItem from="1692697273369" duration="18748000" />
-      <workItem from="1692811090594" duration="10194000" />
-      <workItem from="1692885087929" duration="165000" />
-      <workItem from="1692885260252" duration="31000" />
+      <workItem from="1692811090594" duration="9860000" />
+      <workItem from="1692885317912" duration="46005000" />
+      <workItem from="1693246030925" duration="28490000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
